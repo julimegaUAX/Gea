@@ -1,0 +1,30 @@
+[
+    {
+        "id": "albahaca_genovesa",
+        "nombre": "Albahaca Genovesa",
+        "estacion": "Primavera-Verano",
+        "imagen": "../img/albahaca_genovesa.png",
+        "precio": "2.75 €",
+        "propiedades": [
+            "Aromática",
+            "Uso culinario",
+            "Atrae polinizadores",
+            "Crecimiento rápido"
+        ],
+        "dificultad": "Fácil"
+    },
+    {
+        "id": "tomate",
+        "nombre": "Tomate",
+        "estacion": "Primavera-Verano",
+        "imagen": "../img/tomate.png",
+        "precio": "3.50 €",
+        "propiedades": [
+            "Rico en licopeno",
+            "Uso culinario",
+            "Alto rendimiento",
+            "Resistente a enfermedades"
+        ],
+        "dificultad": "Media"
+    }
+]
