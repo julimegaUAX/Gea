@@ -26,5 +26,19 @@
             "Resistente a enfermedades"
         ],
         "dificultad": "Media"
+    },
+    {
+        "id": "menta",
+        "nombre": "Menta",
+        "estacion": "Primavera-Verano",
+        "imagen": "../img/menta.png",
+        "precio": "2.00 €",
+        "propiedades": [
+            "Aromática",
+            "Uso medicinal",
+            "Atrae polinizadores",
+            "Crecimiento rápido"
+        ],
+        "dificultad": "Fácil"
     }
 ]
