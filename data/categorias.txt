@@ -1,0 +1,43 @@
+--- DIFERENTES CATEGORIAS DE LAS SEMILLAS ---
+
+    id: Identificador único de semilla (PRIMARY KEY)
+    nombre: Nombre de la planta
+    tipo: 
+        herb (Hierba Aromática)
+        veg (Verdura) 
+        fru (Fruta) 
+        flo (Flor) 
+        leg (Legumbre) 
+        raiz (Raíces)
+    luz:
+        sol
+        semisombra
+        sombra
+    riego:
+        bajo
+        medio
+        alto
+    resistencia:
+        baja
+        media
+        alta
+    estacion_siembra:
+        primavera
+        verano
+        otoño
+        invierno
+    tiempo_cosecha: Tiempo estimado en días para la cosecha
+    dificultad:
+        facil
+        intermedio
+        avanzado
+    cuidados:
+        bajo
+        medio
+        alto
+    produccion:
+        baja
+        media
+        alta
+    invernadero: True False
+    

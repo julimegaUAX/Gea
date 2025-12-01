@@ -1,44 +1,122 @@
 [
-    {
-        "id": "albahaca_genovesa",
-        "nombre": "Albahaca Genovesa",
-        "estacion": "Primavera-Verano",
-        "imagen": "../img/albahaca_genovesa.png",
-        "precio": "2.75 €",
-        "propiedades": [
-            "Aromática",
-            "Uso culinario",
-            "Atrae polinizadores",
-            "Crecimiento rápido"
-        ],
-        "dificultad": "Fácil"
-    },
-    {
-        "id": "tomate",
-        "nombre": "Tomate",
-        "estacion": "Primavera-Verano",
-        "imagen": "../img/tomate.png",
-        "precio": "3.50 €",
-        "propiedades": [
-            "Rico en licopeno",
-            "Uso culinario",
-            "Alto rendimiento",
-            "Resistente a enfermedades"
-        ],
-        "dificultad": "Media"
-    },
-    {
-        "id": "menta",
-        "nombre": "Menta",
-        "estacion": "Primavera-Verano",
-        "imagen": "../img/menta.png",
-        "precio": "2.00 €",
-        "propiedades": [
-            "Aromática",
-            "Uso medicinal",
-            "Atrae polinizadores",
-            "Crecimiento rápido"
-        ],
-        "dificultad": "Fácil"
-    }
+  {
+    "id": 1,
+    "nombre": "Albahaca",
+    "precio": 3.50,
+    "tipo_planta": "Aromática",
+    "necesidad_luz": "Sol",
+    "riego": "Medio",
+    "resistencia_frio": "Baja",
+    "estacion_siembra": "Primavera",
+    "tiempo_cosecha": "50 días",
+    "dificultad": "Fácil",
+    "cuidados": "Medio",
+    "produccion": "Media",
+    "invernadero": false
+  },
+  {
+    "id": 2,
+    "nombre": "Manzanilla",
+    "precio": 4.00,
+    "tipo_planta": "Aromática",
+    "necesidad_luz": "Sol",
+    "riego": "Medio",
+    "resistencia_frio": "Media",
+    "estacion_siembra": "Primavera",
+    "tiempo_cosecha": "60-70 días",
+    "dificultad": "Fácil",
+    "cuidados": "Bajos",
+    "produccion": "Media",
+    "invernadero": false
+  },
+  {
+    "id": 3,
+    "nombre": "Menta",
+    "precio": 3.20,
+    "tipo_planta": "Aromática",
+    "necesidad_luz": "Sombra parcial",
+    "riego": "Alto",
+    "resistencia_frio": "Alta",
+    "estacion_siembra": "Primavera",
+    "tiempo_cosecha": "90 días",
+    "dificultad": "Fácil",
+    "cuidados": "Bajos",
+    "produccion": "Alta",
+    "invernadero": false
+  },
+  {
+    "id": 4,
+    "nombre": "Perejil",
+    "precio": 2.80,
+    "tipo_planta": "Aromática",
+    "necesidad_luz": "Sol o semisombra",
+    "riego": "Medio",
+    "resistencia_frio": "Alta",
+    "estacion_siembra": "Primavera",
+    "tiempo_cosecha": "70-80 días",
+    "dificultad": "Media",
+    "cuidados": "Medios",
+    "produccion": "Media",
+    "invernadero": false
+  },
+  {
+    "id": 5,
+    "nombre": "Romero",
+    "precio": 3.80,
+    "tipo_planta": "Aromática",
+    "necesidad_luz": "Sol",
+    "riego": "Bajo",
+    "resistencia_frio": "Alta",
+    "estacion_siembra": "Primavera",
+    "tiempo_cosecha": "90-120 días",
+    "dificultad": "Fácil",
+    "cuidados": "Bajos",
+    "produccion": "Media",
+    "invernadero": false
+  },
+  {
+    "id": 6,
+    "nombre": "Salvia",
+    "precio": 4.20,
+    "tipo_planta": "Aromática",
+    "necesidad_luz": "Sol",
+    "riego": "Medio",
+    "resistencia_frio": "Media",
+    "estacion_siembra": "Primavera",
+    "tiempo_cosecha": "75-90 días",
+    "dificultad": "Media",
+    "cuidados": "Medios",
+    "produccion": "Media",
+    "invernadero": false
+  },
+  {
+    "id": 7,
+    "nombre": "Tomillo",
+    "precio": 3.60,
+    "tipo_planta": "Aromática",
+    "necesidad_luz": "Sol",
+    "riego": "Bajo",
+    "resistencia_frio": "Alta",
+    "estacion_siembra": "Primavera",
+    "tiempo_cosecha": "80-90 días",
+    "dificultad": "Fácil",
+    "cuidados": "Bajos",
+    "produccion": "Media",
+    "invernadero": false
+  },
+  {
+    "id": 8,
+    "nombre": "Laurel",
+    "precio": 5.00,
+    "tipo_planta": "Aromática",
+    "necesidad_luz": "Sol o semisombra",
+    "riego": "Bajo",
+    "resistencia_frio": "Alta",
+    "estacion_siembra": "Primavera",
+    "tiempo_cosecha": "6-12 meses",
+    "dificultad": "Media",
+    "cuidados": "Medios",
+    "produccion": "Alta",
+    "invernadero": false
+  }
 ]

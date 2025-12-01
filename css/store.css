@@ -1,3 +1,7 @@
+body {
+    font-family: "Ubuntu", sans-serif;
+}
+
 .product-list {
     display: flex;
     flex-wrap: wrap;
@@ -8,7 +12,7 @@
 
 .product-card {
     border: 1px solid #ddd;
-    border-radius: 8px;
+    border-radius: 30px;
     padding: 15px;
     width: 300px;
     background: white;
