@@ -2,13 +2,14 @@
 
     id: Identificador único de semilla (PRIMARY KEY)
     nombre: Nombre de la planta
+    precio: Precio par 200gr de semilla
     tipo: 
         herb (Hierba Aromática)
         veg (Verdura) 
         fru (Fruta) 
         flo (Flor) 
         leg (Legumbre) 
-        raiz (Raíces)
+        Cereal (Cereal)
     luz:
         sol
         semisombra

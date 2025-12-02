@@ -11,19 +11,34 @@
         <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
     </head>
     <body>
-        <nav>
-            <div class="logo">
-                <img src="../img/assets/gea.svg" alt="Gea Logo">
-                <h1> Gea</h1>
+        <nav class = nav-container>
+            <div class="nav-content">
+                <div class="logo">
+                    <img src="../img/assets/gea.svg" alt="Gea Logo" class="logo-img">
+                    <h1 class="logo-text">Gea</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li class="nav-selected">Tienda</li>
+                    <li><a href="about.html">Sobre Nosotros</a></li>
+                </ul>
+                <div class="menu">
+                    <img src="../img/assets/menu/login.svg" alt = "Login Icon" class="login-icon">
+                    <img src="../img/assets/menu/shopping_cart.svg" alt="Shopping Cart Icon" class="shopping-icon">
+                    <img src="../img/assets/menu/menu.svg" alt="Menu Icon" class="menu-icon">
+                </div>
             </div>
-            <ul class="nav-links">
-                <li><a href="index.html">Inicio</a></li>
-                <li>Tienda</li>
-                <li><a href="about.html">Sobre Nosotros</a></li>
-            </ul>
         </nav>
         <div class="store-container">
-            <div id="product-list" class="product-list">
+            <div class="store-name">
+                <h2>Lista de Hierbas Aromáticas</h2>
+            </div>
+            <div id="herb-list" class="product-list">
+            </div>
+            <div class="store-name">
+                <h2>Lista de Vegetales</h2>
+            </div>
+            <div id="veg-list" class="product-list">
             </div>
         </div>
 
