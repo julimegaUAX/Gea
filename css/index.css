@@ -5,9 +5,12 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Ubuntu", sans-serif;
     line-height: 1.6;
     color: #333;
+    cursor: default;
+    margin: 0;
+    padding: 0;
 }
 
 .container {
@@ -16,55 +19,152 @@ body {
     padding: 0 20px;
 }
 
-/* Header */
-.header {
-    background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
-    color: white;
-    padding: 1rem 0;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+/* === Responsive Navegacion === */
+
+/* -- Responsive Movil -- */
+
+.nav-container {
+    background-color: #2c5f2d;
+    padding: 6px 16px;
 }
 
-.header .container {
+.nav-content {
+    max-width: 70%;
+    margin: 0 auto;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
 }
 
 .logo {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    color: white;
 }
 
-.logo img {
-    height: 200px;
-    width: auto;
-    display: block;
+.logo-img {
+    height: 60px;
+    margin: 4px 4px;
 }
 
-.logo h1 {
-    font-size: 2rem;
+.logo-text {
+    border-left: 4px solid white;
+    padding: 8px;
+    font-size: 1.6em;
+}
+
+.nav-links {
+    display: none;
+}
+
+.nav-selected {
     font-weight: bold;
+    border-bottom: 5px solid white;
 }
 
-.nav ul {
-    list-style: none;
-    display: flex;
-    gap: 2rem;
-}
-
-.nav a {
+.nav-links a {
     color: white;
     text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s;
 }
 
-.nav a:hover {
-    color: #a8e063;
+.nav-links a:hover {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+
+.menu-icon,
+.login-icon,
+.shopping-icon {
+    height: 28px;
+    cursor: pointer;
+}
+
+/* -- Responsive Tablet -- */
+
+@media (min-width: 768px) {
+    .nav-content {
+        max-width: 70%;
+    }
+
+    .logo-img {
+        height: 64px;
+        margin: 6px 4px;
+    }
+
+    .logo-text {
+        font-size: 1.8em;
+    }
+
+    .menu-icon,
+    .login-icon,
+    .shopping-icon {
+        height: 30px;
+    }
+}
+
+/* -- Responsive Ordenador -- */
+
+@media (min-width: 1105px) {
+    .nav-content {
+        max-width: 70%;
+        
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+        align-items: center;
+    }
+
+    .logo {
+        justify-self: start;
+    }
+
+    .logo-img {
+        height: 60px;
+        margin: 4px 0;
+    }
+
+    .logo-text {
+        font-size: 1.6em;
+    }
+
+    .nav-links {
+        display: flex;
+        color: white;
+        list-style: none;
+        text-decoration: none;
+        margin: 0;
+        padding: 0;
+        font-size: 1.3em;
+        gap: 24px;
+        justify-content: center;
+        justify-self: center;
+    }
+
+    .menu {
+        justify-self: end;
+        gap: 24px;
+    }
+
+    .menu-icon {
+        display: none;
+    }
+
+    .login-icon,
+    .shopping-icon {
+        height: 35px;
+        transition: 0.3 ease;
+    }
+    .menu-icon:hover,
+    .login-icon:hover,
+    .shopping-icon:hover {
+    filter: saturate(2) brightness(2);
+    }
 }
 
 /* Hero Section */

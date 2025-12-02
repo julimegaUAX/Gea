@@ -5,27 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gea - Tienda de Semillas de Plantas</title>
     <link rel="stylesheet" href="../css/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
+    <nav class="nav-container">
+        <div class="nav-content">
             <div class="logo">
-                <img src="../img/assets/gea3.png" alt="Gea Logo">
-                <h1> Gea</h1>
+                <img src="../img/assets/gea.svg" alt="Gea Logo" class="logo-img">
+                <h1 class="logo-text">Gea</h1>
             </div>
-            <nav class="nav">
-                <ul>
-                    <li><a href="index.html">Inicio</a></li>
-                    <li><a href="store.html">Tienda</a></li>
-                    <li><a href="#about">Sobre Nosotros</a></li>
-                    <li><a href="#faq">FAQ</a></li>
-                    <li><a href="#contact">Contacto</a></li>
-                </ul>
-            </nav>
+            <ul class="nav-links">
+                <li class="nav-selected">Inicio</li>
+                <li><a href="store.html">Tienda</a></li>
+                <li><a href="#about">Sobre Nosotros</a></li>
+            </ul>
+            <div class="menu">
+                <img src="../img/assets/menu/login.svg" alt="Login Icon" class="login-icon">
+                <img src="../img/assets/menu/shopping_cart.svg" alt="Shopping Cart Icon" class="shopping-icon">
+                <img src="../img/assets/menu/menu.svg" alt="Menu Icon" class="menu-icon">
+            </div>
         </div>
-    </header>
+    </nav>
 
     <!-- Hero Section -->
     <section class="hero">

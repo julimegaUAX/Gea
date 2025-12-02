@@ -1,7 +1,13 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: "Ubuntu", sans-serif;
-    margin:0;
-    padding:0;
+    margin: 0;
+    padding: 0;
     cursor: default;
 }
 
@@ -85,7 +91,7 @@ body {
 
 .nav-container {
     background-color: #2c5f2d;
-    padding: 10px 20px;
+    padding: 6px 16px;
 }
 
 .nav-content {
@@ -103,14 +109,14 @@ body {
 }
 
 .logo-img {
-    height: 75px;
-    margin: 5px 5px;
+    height: 60px;
+    margin: 4px 4px;
 }
 
 .logo-text {
-    border-left: 5px solid white;
-    padding: 10px;
-    font-size: 2em;
+    border-left: 4px solid white;
+    padding: 8px;
+    font-size: 1.6em;
 }
 
 .nav-links {
@@ -135,14 +141,14 @@ body {
 .menu {
     display: flex;
     align-items: center;
-    gap: 35px;
+    gap: 24px;
 }
 
 
 .menu-icon,
 .login-icon,
 .shopping-icon {
-    height: 35px;
+    height: 28px;
     cursor: pointer;
 }
 
@@ -154,18 +160,18 @@ body {
     }
 
     .logo-img {
-        height: 75px;
-        margin: 8px 5px;
+        height: 64px;
+        margin: 6px 4px;
     }
 
     .logo-text {
-        font-size: 2em;
+        font-size: 1.8em;
     }
 
     .menu-icon,
     .login-icon,
     .shopping-icon {
-        height: 35px;
+        height: 30px;
     }
 }
 
@@ -185,12 +191,12 @@ body {
     }
 
     .logo-img {
-        height: 75px;
-        margin: 5px 0;
+        height: 60px;
+        margin: 4px 0;
     }
 
     .logo-text {
-        font-size: 2em;
+        font-size: 1.6em;
     }
 
     .nav-links {
@@ -200,15 +206,15 @@ body {
         text-decoration: none;
         margin: 0;
         padding: 0;
-        font-size: 1.5em;
-        gap: 30px;
+        font-size: 1.3em;
+        gap: 24px;
         justify-content: center;
         justify-self: center;
     }
 
     .menu {
         justify-self: end;
-        gap: 30px;
+        gap: 24px;
     }
 
     .menu-icon {
