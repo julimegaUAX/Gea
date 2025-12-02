@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Gea | Login</title>
+        <link rel="stylesheet" href="../css/login.css">
+        <link rel="icon" href="../img/assets/gea_favicon.svg" type="image/svg">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container" id="container">
+            <div class="form-container sign-up">
+                <form>
+                    <h1>Crear Cuenta</h1>
+                    <div class="social-icons">
+                        <a href="#" class="icon"><img src="../img/assets/login/google.svg" ></a>
+                        <a href="#" class="icon"><img src="../img/assets/login/facebook.svg" ></a>
+                        <a href="#" class="icon"><img src="../img/assets/login/instagram.svg" ></a>
+                    </div>
+                    <span> o usa tu email para registrarte</span>
+                    <input type="text" placeholder="Name">
+                    <input type="email" placeholder="Email">
+                    <input type="password" placeholder="Password">
+                    <button>Registrarse</button>
+                </form>
+            </div>
+            <div class="form-container sign-in">
+                <form>
+                    <h1>Iniciar Sesion</h1>
+                    <div class="social-icons">
+                        <a href="#" class="icon"><img src="../img/assets/login/google.svg" ></a>
+                        <a href="#" class="icon"><img src="../img/assets/login/facebook.svg" ></a>
+                        <a href="#" class="icon"><img src="../img/assets/login/instagram.svg" ></a>
+                    </div>
+                    <span> o usa tu email y contraseña</span>
+                    <input type="email" placeholder="Email">
+                    <input type="password" placeholder="Password">
+                    <a href="#">¿Olvidaste tu contraseña?</a>
+                    <button>Acceder</button>
+                </form>
+            </div>
+            <div class="toggle-container">
+                <div class="toggle">
+                    <div class="toggle-panel toggle-left">
+                        <h1>¿Nuevo en Gea?</h1>
+                        <p>¡Crea una cuenta para descubrir nuestro catálogo de semillas!</p>
+                        <button class="hidden" id="login">Iniciar Sesion</button>
+                    </div>
+                    <div class="toggle-panel toggle-right">
+                        <h1>¿Ya tienes una cuenta?</h1>
+                        <p>¡Inicia sesión para acceder a tu cuenta y explorar nuestras semillas!</p>
+                        <button class="hidden" id="register">Registrarse</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="../js/login.js"></script>
+    </body>
