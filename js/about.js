@@ -14,5 +14,7 @@ marker.bindPopup(`
         <div class="popup-title">Gea</div>
 		<div class="popup-subtitle">Plantas y Semillas</div>
 		<img src="../img/assets/Tienda_fisica.png" alt="Gea Tienda Física">
+		<div class="popup-address">C/ Primavera 27, Madrid</div>
+		<div class="popup-hours">Lunes-Viernes: 9:00-18:00</div>
 	</div>
 `, { maxWidth: 200 });
