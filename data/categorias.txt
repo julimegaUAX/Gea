@@ -9,7 +9,7 @@
         fru (Fruta) 
         flo (Flor) 
         leg (Legumbre) 
-        Cereal (Cereal)
+        cer (Cereal)
     luz:
         sol
         semisombra
