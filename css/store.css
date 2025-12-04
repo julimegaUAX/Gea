@@ -239,29 +239,6 @@ body {
     }
 }
 
-/* Notificación flotante */
-.notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #704000;
-    color: white;
-    padding: 15px 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    font-weight: 500;
-    z-index: 9999;
-    opacity: 0;
-    transform: translateX(400px);
-    transition: all 0.3s ease;
-}
-
-.notification.show {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-
 .show-cart {
     background-color: #2c5f2d;
     position: fixed;
