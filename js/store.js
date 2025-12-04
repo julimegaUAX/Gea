@@ -84,7 +84,7 @@ function addToCart(product) {
     }
 
     saveCart(cart);
-    alert(`${product.nombre} añadido al carrito`);
+    showNotification(`${product.nombre} añadido al carrito`);
     updateCartCount();
 }
 
@@ -102,3 +102,20 @@ document.addEventListener('DOMContentLoaded', function() {
     cargarSemillas();
     updateCartCount();
 });
+
+// Notificación flotante
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    // Mostrar la notificación
+    setTimeout(() => notification.classList.add('show'), 10);
+    
+    // Desaparecer después de 2 segundos
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, 1500);
+}
