@@ -18,3 +18,49 @@ marker.bindPopup(`
 		<div class="popup-hours">Lunes-Viernes: 9:00-18:00</div>
 	</div>
 `, { maxWidth: 200 });
+
+// Modal de Contacto
+const modal = document.getElementById('contactModal');
+const contactBtn = document.getElementById('contactBtn');
+const closeBtn = document.querySelector('.close');
+const contactForm = document.getElementById('contactForm');
+
+// Abrir modal
+contactBtn.addEventListener('click', function() {
+	modal.style.display = 'block';
+});
+
+// Cerrar modal al hacer clic en la X
+closeBtn.addEventListener('click', function() {
+	modal.style.display = 'none';
+});
+
+// Cerrar modal al hacer clic fuera del contenido
+window.addEventListener('click', function(event) {
+	if (event.target === modal) {
+		modal.style.display = 'none';
+	}
+});
+
+// Enviar formulario
+contactForm.addEventListener('submit', function(e) {
+	e.preventDefault();
+	
+	// Obtener datos del formulario
+	const name = document.getElementById('name').value;
+	const email = document.getElementById('email').value;
+	const phone = document.getElementById('phone').value;
+	const message = document.getElementById('message').value;
+	
+	// Crear el mailto
+	const mailtoLink = `mailto:info@gea-semillas.com?subject=Consulta de ${name}&body=Nombre: ${name}%0ATeléfono: ${phone}%0AEmail: ${email}%0A%0AMensaje:%0A${message}`;
+	
+	// Abrir el cliente de email
+	window.location.href = mailtoLink;
+	
+	// Limpiar formulario
+	contactForm.reset();
+	
+	// Cerrar modal
+	modal.style.display = 'none';
+});

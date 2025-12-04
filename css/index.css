@@ -172,8 +172,8 @@ body {
 
 /* Hero Section */
 .hero {
-    background: linear-gradient(135deg, rgba(45, 80, 22, 0.9), rgba(74, 124, 44, 0.9)), 
-                url('../img/assets/hero-bg.jpg') center/cover;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                url('../img/assets/portada.png') center/cover;
     color: white;
     padding: 120px 20px;
     text-align: center;

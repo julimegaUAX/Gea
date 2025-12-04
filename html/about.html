@@ -125,11 +125,38 @@
 				<h3>¿Empezamos tu proyecto verde?</h3>
 				<p>Explora la tienda o escríbenos para recomendaciones personalizadas.</p>
 				<div class="cta-actions">
-					<a class="btn" href="store.html">Ver Tienda</a>
-					<a class="btn btn-outline" href="mailto:info@gea-semillas.com">Contactar</a>
+					<a class="btn btn-outline" href="store.html">Ver Tienda</a>
+					<button class="btn btn-outline" id="contactBtn">Contactar</button>
 				</div>
 			</div>
 		</section>
+
+		<!-- Modal de Contacto -->
+		<div id="contactModal" class="modal">
+			<div class="modal-content">
+				<span class="close">&times;</span>
+				<h2>Formulario de Contacto</h2>
+				<form id="contactForm">
+					<div class="form-group">
+						<label for="name">Nombre:</label>
+						<input type="text" id="name" name="name" required>
+					</div>
+					<div class="form-group">
+						<label for="email">Email:</label>
+						<input type="email" id="email" name="email" required>
+					</div>
+					<div class="form-group">
+						<label for="phone">Teléfono:</label>
+						<input type="tel" id="phone" name="phone">
+					</div>
+					<div class="form-group">
+						<label for="message">Mensaje:</label>
+						<textarea id="message" name="message" rows="5" required></textarea>
+					</div>
+					<button type="submit" class="btn-submit">Enviar</button>
+				</form>
+			</div>
+		</div>
 
 		<footer class="footer">
 			<div class="container">
