@@ -53,13 +53,48 @@
         <div class="store-name">
             <h2>Lista de Flores</h2>
         </div>
-        <div id="flores-list" class="product-list">
+        <div id="flo-list" class="product-list">
         </div>
         <div class="store-name">
             <h2>Lista de Frutas</h2>
         </div>
-        <div id="frutas-list" class="product-list">
+        <div id="fru-list" class="product-list">
         </div>
-    </div>        <script src="../js/store.js"></script>
+    </div>
+    <div class="show-cart" id="cart-footer">
+        <div class="cart-content">
+            <div class="cart-categories">
+                <div class="category-count" data-category="herb">
+                    <img src="../img/icon/herb.png" alt="Icono Hierbas">
+                    <span class="count">0</span>
+                </div>
+                <div class="category-count" data-category="fru">
+                    <img src="../img/icon/fru.png" alt="Icono Frutas">
+                    <span class="count">0</span>
+                </div>
+                <div class="category-count" data-category="veg">
+                    <img src="../img/icon/veg.png" alt="Icono Vegetales">
+                    <span class="count">0</span>
+                </div>
+                <div class="category-count" data-category="leg">
+                    <img src="../img/icon/leg.png" alt="Icono Legumbres">
+                    <span class="count">0</span>
+                </div>
+                <div class="category-count" data-category="cer">
+                    <img src="../img/icon/cer.png" alt="Icono Cereales">
+                    <span class="count">0</span>
+                </div>
+                <div class="category-count" data-category="flo">
+                    <img src="../img/icon/flo.png" alt="Icono Flores">
+                    <span class="count">0</span>
+                </div>
+            </div>
+            <div class="cart-total">
+                <p>Total: <span id="cart-total-price">0</span>€</p>
+                <button class="view-cart-btn">Continuar</button>
+            </div>
+        </div>
+    </div>
+    <script src="../js/store.js"></script>
     </body>
 </html>

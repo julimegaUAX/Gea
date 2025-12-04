@@ -6,8 +6,8 @@ async function cargarSemillas() {
         const vegList = document.getElementById('veg-list');
         const legList = document.getElementById('leg-list');
         const cerList = document.getElementById('cer-list');
-        const floresList = document.getElementById('flores-list');
-        const frutasList = document.getElementById('frutas-list');
+        const floresList = document.getElementById('flo-list');
+        const frutasList = document.getElementById('fru-list');
         
         semillas.forEach(semilla => {
             const productDiv = document.createElement('div');
@@ -24,7 +24,13 @@ async function cargarSemillas() {
                 <img src="../img/${semilla.tipo_planta}/${nombreImagen}.png" alt="${semilla.nombre}" class="product-image">
                 <h2 class="product-name">${semilla.nombre}</h2>
                 <p class="product-price">${semilla.precio}€</p>
-                <button class="add-to-cart-btn" data-id="${semilla.id}" data-nombre="${semilla.nombre}" data-precio="${semilla.precio}">Añadir al carrito</button>
+                <button class="add-to-cart-btn" 
+                        data-id="${semilla.id}" 
+                        data-nombre="${semilla.nombre}" 
+                        data-precio="${semilla.precio}"
+                        data-tipo="${semilla.tipo_planta}">
+                    Añadir al carrito
+                </button>
             `;
             
             // Añadir al div correspondiente según el tipo de planta
@@ -36,9 +42,9 @@ async function cargarSemillas() {
                 legList.appendChild(productDiv);
             } else if (semilla.tipo_planta === 'cer') {
                 cerList.appendChild(productDiv);
-            } else if (semilla.tipo_planta === 'flores') {
+            } else if (semilla.tipo_planta === 'flo') {
                 floresList.appendChild(productDiv);
-            } else if (semilla.tipo_planta === 'frutas') {
+            } else if (semilla.tipo_planta === 'fru') {
                 frutasList.appendChild(productDiv);
             }
         });
@@ -49,7 +55,8 @@ async function cargarSemillas() {
                 const id = this.getAttribute('data-id');
                 const nombre = this.getAttribute('data-nombre');
                 const precio = parseFloat(this.getAttribute('data-precio'));
-                addToCart({ id, nombre, precio });
+                const tipo_planta = this.getAttribute('data-tipo');
+                addToCart({ id, nombre, precio, tipo_planta });
             });
         });
 
@@ -79,13 +86,15 @@ function addToCart(product) {
             id: product.id,
             nombre: product.nombre,
             precio: product.precio,
-            cantidad: 1
+            cantidad: 1,
+            tipo_planta: product.tipo_planta
         });
     }
 
     saveCart(cart);
     showNotification(`${product.nombre} añadido al carrito`);
     updateCartCount();
+    updateCartFooter();
 }
 
 function updateCartCount() {
@@ -98,24 +107,82 @@ function updateCartCount() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    cargarSemillas();
-    updateCartCount();
-});
-
-// Notificación flotante
+// Función para mostrar notificaciones
 function showNotification(message) {
     const notification = document.createElement('div');
     notification.className = 'notification';
     notification.textContent = message;
     document.body.appendChild(notification);
     
-    // Mostrar la notificación
     setTimeout(() => notification.classList.add('show'), 10);
     
-    // Desaparecer después de 2 segundos
     setTimeout(() => {
         notification.classList.remove('show');
         setTimeout(() => notification.remove(), 300);
-    }, 1500);
+    }, 2000);
 }
+
+// Función para actualizar el footer del carrito
+function updateCartFooter() {
+    const cart = getCart();
+    const footerEl = document.getElementById('cart-footer');
+    
+    if (!footerEl) return;
+    
+    // Si el carrito está vacío, ocultar footer
+    if (cart.length === 0) {
+        footerEl.classList.remove('active');
+        return;
+    }
+    
+    // Mostrar footer
+    footerEl.classList.add('active');
+    
+    // Contar items por categoría
+    const categoryCounts = {
+        herb: 0,
+        veg: 0,
+        leg: 0,
+        cer: 0,
+        flo: 0,
+        fru: 0
+    };
+    
+    let totalPrice = 0;
+    
+    cart.forEach(item => {
+        if (item.tipo_planta && categoryCounts.hasOwnProperty(item.tipo_planta)) {
+            categoryCounts[item.tipo_planta] += item.cantidad;
+        }
+        totalPrice += item.precio * item.cantidad;
+    });
+    
+    // Actualizar cada categoría en el DOM
+    Object.keys(categoryCounts).forEach(category => {
+        const categoryEl = document.querySelector(`.category-count[data-category="${category}"]`);
+        if (categoryEl) {
+            const countEl = categoryEl.querySelector('.count');
+            const count = categoryCounts[category];
+            
+            countEl.textContent = count;
+            
+            if (count > 0) {
+                categoryEl.classList.add('has-items');
+            } else {
+                categoryEl.classList.remove('has-items');
+            }
+        }
+    });
+    
+    // Actualizar total
+    const totalPriceEl = document.getElementById('cart-total-price');
+    if (totalPriceEl) {
+        totalPriceEl.textContent = totalPrice.toFixed(2);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    cargarSemillas();
+    updateCartCount();
+    updateCartFooter();
+});

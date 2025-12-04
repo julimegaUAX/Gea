@@ -16,7 +16,8 @@ html, body{
     width:30px;
 }
 .container{
-    background-color: white;
+    background-color: transparent;
+    backdrop-filter: blur(10px) brightness(0.8);
     border-radius:30px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.35);
     position:relative;
@@ -28,6 +29,7 @@ html, body{
 
 .container p{
     font-size: 14px;
+    color: white;
     line-height: 20px;
     letter-spacing: 0.3px;
     margin: 20px 0;
@@ -36,6 +38,7 @@ html, body{
 
 .container span{
     font-size: 12px;
+    color: white;
 }
 
 .container a{
@@ -46,7 +49,7 @@ html, body{
 }
 
 .container button{
-    background-color: #512da8;
+    background-color: #2c5f2d;
     color: white;
     font-size: 12px;
     padding: 10px 45px;
@@ -65,7 +68,6 @@ html, body{
 }
 
 .container form{
-    background-color: white;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -158,9 +160,9 @@ html, body{
 }
 
 .toggle{
-    background-color: #512da8;
+    background-color: #2c5f2d;
     height: 100%;
-    background: linear-gradient(to right, #5c6bc0, #512da8);
+    background: #2c5f2d;
     color:white;
     position:relative;
     left:-100%;
