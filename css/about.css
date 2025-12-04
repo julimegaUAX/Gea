@@ -103,12 +103,12 @@ body {
 .btn:hover { filter: brightness(1.1); }
 
 /* Popup */
-.popup-content { text-align: center; padding: 6px; font-size: 0.85em; }
+.popup-content { text-align: center; padding: 6px; font-size: 1.1em; }
 .popup-content img { width: 80px; margin-bottom: 6px; border-radius: 6px; }
-.popup-title { margin-top: 2px; font-weight: bold; font-size: 1em; }
-.popup-subtitle { font-size: 0.75em; color: #555; margin-bottom: 4px; }
-.popup-address { font-size: 0.75em; margin: 4px 0; }
-.popup-hours { font-size: 0.75em; margin-top: 4px; }
+.popup-title { margin-top: 2px; font-weight: bold; font-size: 1.5em; }
+.popup-subtitle { font-size: 0.9em; color: #555; margin-bottom: 4px; }
+.popup-address { font-size: 0.9em; margin: 4px 0; }
+.popup-hours { font-size: 0.9em; margin-top: 4px; }
 
 
 /* Leaflet popup external green border */
@@ -126,3 +126,97 @@ body {
 
 /* Footer */
 .footer { background: #2c5f2d; color: white; padding: 24px 0; text-align: center; }
+
+/* Stats Section */
+.stats-section {
+	background: linear-gradient(135deg, #2c5f2d 0%, #4a7c2c 100%);
+	color: white;
+	padding: 60px 0;
+}
+
+.stats-section h3 {
+	text-align: center;
+	font-size: 2.2rem;
+	margin-bottom: 40px;
+}
+
+.stats-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 30px;
+}
+
+.stat-card {
+	text-align: center;
+	padding: 30px 20px;
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 12px;
+	backdrop-filter: blur(10px);
+	transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+	transform: translateY(-5px);
+}
+
+.stat-number {
+	font-size: 2.8rem;
+	font-weight: 700;
+	margin-bottom: 10px;
+	color: #a8e063;
+}
+
+.stat-card p {
+	font-size: 1.1rem;
+	opacity: 0.95;
+}
+
+/* Benefits Section */
+.benefits-section {
+	padding: 60px 0;
+	background: #f8f9fa;
+}
+
+.benefits-section h3 {
+	text-align: center;
+	color: #2c5f2d;
+	font-size: 2.2rem;
+	margin-bottom: 40px;
+}
+
+.benefits-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+	gap: 25px;
+}
+
+.benefit-item {
+	background: white;
+	padding: 30px 25px;
+	border-radius: 12px;
+	text-align: center;
+	box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+	transition: all 0.3s ease;
+}
+
+.benefit-item:hover {
+	transform: translateY(-8px);
+	box-shadow: 0 8px 20px rgba(44, 95, 45, 0.15);
+}
+
+.benefit-icon {
+	font-size: 3rem;
+	margin-bottom: 15px;
+	display: block;
+}
+
+.benefit-item h4 {
+	color: #2c5f2d;
+	margin-bottom: 12px;
+	font-size: 1.3rem;
+}
+
+.benefit-item p {
+	color: #666;
+	line-height: 1.6;
+}
