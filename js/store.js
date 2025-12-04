@@ -6,8 +6,8 @@ async function cargarSemillas() {
         const vegList = document.getElementById('veg-list');
         const legList = document.getElementById('leg-list');
         const cerList = document.getElementById('cer-list');
-        const floresList = document.getElementById('flo-list');
-        const frutasList = document.getElementById('fru-list');
+        const floList = document.getElementById('flo-list');
+        const fruList = document.getElementById('fru-list');
         
         semillas.forEach(semilla => {
             const productDiv = document.createElement('div');
@@ -31,6 +31,11 @@ async function cargarSemillas() {
                         data-tipo="${semilla.tipo_planta}">
                     Añadir al carrito
                 </button>
+                <div class="quantity-controls" style="display: none;" data-id="${semilla.id}">
+                    <button class="quantity-btn minus-btn" data-id="${semilla.id}">-</button>
+                    <span class="quantity-display">0</span>
+                    <button class="quantity-btn plus-btn" data-id="${semilla.id}">+</button>
+                </div>
             `;
             
             // Añadir al div correspondiente según el tipo de planta
@@ -43,9 +48,9 @@ async function cargarSemillas() {
             } else if (semilla.tipo_planta === 'cer') {
                 cerList.appendChild(productDiv);
             } else if (semilla.tipo_planta === 'flo') {
-                floresList.appendChild(productDiv);
+                floList.appendChild(productDiv);
             } else if (semilla.tipo_planta === 'fru') {
-                frutasList.appendChild(productDiv);
+                fruList.appendChild(productDiv);
             }
         });
 
@@ -59,6 +64,28 @@ async function cargarSemillas() {
                 addToCart({ id, nombre, precio, tipo_planta });
             });
         });
+
+        // Event listeners para botones de cantidad
+        document.querySelectorAll('.plus-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const productCard = this.closest('.product-card');
+                const nombre = productCard.querySelector('.add-to-cart-btn').getAttribute('data-nombre');
+                const precio = parseFloat(productCard.querySelector('.add-to-cart-btn').getAttribute('data-precio'));
+                const tipo_planta = productCard.querySelector('.add-to-cart-btn').getAttribute('data-tipo');
+                addToCart({ id, nombre, precio, tipo_planta });
+            });
+        });
+
+        document.querySelectorAll('.minus-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                removeFromCart(id);
+            });
+        });
+
+        // Actualizar UI para productos ya en el carrito
+        updateProductUI();
 
     } catch (error) {
         console.error('Error al cargar las semillas:', error);
@@ -95,6 +122,51 @@ function addToCart(product) {
     showNotification(`${product.nombre} añadido al carrito`);
     updateCartCount();
     updateCartFooter();
+    updateProductUI();
+}
+
+function removeFromCart(productId) {
+    let cart = getCart();
+    const existingItem = cart.find(item => item.id === productId);
+
+    if (existingItem) {
+        existingItem.cantidad--;
+        if (existingItem.cantidad <= 0) {
+            cart = cart.filter(item => item.id !== productId);
+            showNotification(`Producto eliminado del carrito`);
+        } else {
+            showNotification(`Cantidad actualizada`);
+        }
+    }
+
+    saveCart(cart);
+    updateCartCount();
+    updateCartFooter();
+    updateProductUI();
+}
+
+function updateProductUI() {
+    const cart = getCart();
+    
+    // Recorrer todos los productos
+    document.querySelectorAll('.product-card').forEach(card => {
+        const addBtn = card.querySelector('.add-to-cart-btn');
+        const quantityControls = card.querySelector('.quantity-controls');
+        const productId = addBtn.getAttribute('data-id');
+        
+        const cartItem = cart.find(item => item.id === productId);
+        
+        if (cartItem && cartItem.cantidad > 0) {
+            // Producto está en el carrito - mostrar controles
+            addBtn.style.display = 'none';
+            quantityControls.style.display = 'flex';
+            quantityControls.querySelector('.quantity-display').textContent = cartItem.cantidad;
+        } else {
+            // Producto no está en el carrito - mostrar botón añadir
+            addBtn.style.display = 'block';
+            quantityControls.style.display = 'none';
+        }
+    });
 }
 
 function updateCartCount() {
@@ -186,3 +258,11 @@ document.addEventListener('DOMContentLoaded', function() {
     updateCartCount();
     updateCartFooter();
 });
+
+// Agregar evento al botón de continuar
+const viewCartBtn = document.querySelector('.view-cart-btn');
+if (viewCartBtn) {
+    viewCartBtn.addEventListener('click', function() {
+        window.location.href = 'cart.html';
+    });
+}
