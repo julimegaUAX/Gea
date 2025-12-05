@@ -378,3 +378,77 @@ body {
 .view-cart-btn:hover {
     transform: scale(1.05);
 }
+
+/* Footer */
+.footer {
+    background: #2d5016;
+    color: white;
+    padding: 3rem 0 1rem;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.footer-section h3 {
+    margin-bottom: 1rem;
+    color: #a8e063;
+    font-size: 1.5rem;
+}
+
+.footer-section h4 {
+    margin-bottom: 1rem;
+    color: #a8e063;
+    font-size: 1.2rem;
+}
+
+.footer-section p {
+    line-height: 1.8;
+    opacity: 0.95;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.7rem;
+}
+
+.footer-section a {
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.footer-section a:hover {
+    color: #a8e063;
+}
+
+.social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    align-items: center;
+}
+
+.social-link {
+    display: inline-block;
+    transition: all 0.3s;
+}
+
+.social-link:hover {
+    transform: translateX(5px);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
