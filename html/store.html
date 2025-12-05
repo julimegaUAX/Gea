@@ -30,32 +30,44 @@
             </div>
         </nav>
     <div class="store-container">
-        <div class="store-name">
+        <div class="filter-section">
+            <h3>Filtrar por Tipo</h3>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">Todos</button>
+                <button class="filter-btn" data-filter="herb">Hierbas</button>
+                <button class="filter-btn" data-filter="veg">Vegetales</button>
+                <button class="filter-btn" data-filter="leg">Legumbres</button>
+                <button class="filter-btn" data-filter="cer">Cereales</button>
+                <button class="filter-btn" data-filter="flo">Flores</button>
+                <button class="filter-btn" data-filter="fru">Frutas</button>
+            </div>
+        </div>
+        <div class="store-name herb-name" data-category="herb">
             <h2>Lista de Hierbas Aromáticas</h2>
         </div>
         <div id="herb-list" class="product-list">
         </div>
-        <div class="store-name">
+        <div class="store-name veg-name" data-category="veg">
             <h2>Lista de Vegetales</h2>
         </div>
         <div id="veg-list" class="product-list">
         </div>
-        <div class="store-name">
+        <div class="store-name leg-name" data-category="leg">
             <h2>Lista de Legumbres</h2>
         </div>
         <div id="leg-list" class="product-list">
         </div>
-        <div class="store-name">
+        <div class="store-name cer-name" data-category="cer">
             <h2>Lista de Cereales</h2>
         </div>
         <div id="cer-list" class="product-list">
         </div>
-        <div class="store-name">
+        <div class="store-name flo-name" data-category="flo">
             <h2>Lista de Flores</h2>
         </div>
         <div id="flo-list" class="product-list">
         </div>
-        <div class="store-name">
+        <div class="store-name fru-name" data-category="fru">
             <h2>Lista de Frutas</h2>
         </div>
         <div id="fru-list" class="product-list">
