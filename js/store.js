@@ -185,4 +185,12 @@ document.addEventListener('DOMContentLoaded', function() {
     cargarSemillas();
     updateCartCount();
     updateCartFooter();
+    
+    // Añadir evento al botón "Continuar" del carrito
+    const viewCartBtn = document.querySelector('.view-cart-btn');
+    if (viewCartBtn) {
+        viewCartBtn.addEventListener('click', function() {
+            window.location.href = 'cart.html';
+        });
+    }
 });
