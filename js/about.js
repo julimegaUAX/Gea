@@ -64,3 +64,21 @@ contactForm.addEventListener('submit', function(e) {
 	// Cerrar modal
 	modal.style.display = 'none';
 });
+
+// Menú móvil
+const menuIcon = document.getElementById('menu-icon');
+const mobileMenu = document.getElementById('mobile-menu');
+
+if (menuIcon && mobileMenu) {
+	menuIcon.addEventListener('click', function() {
+		mobileMenu.classList.toggle('active');
+	});
+
+	const mobileLinks = mobileMenu.querySelectorAll('a');
+	mobileLinks.forEach(link => {
+		link.addEventListener('click', function() {
+			mobileMenu.classList.remove('active');
+		});
+	});
+}
+
