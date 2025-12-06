@@ -37,6 +37,15 @@ async function cargarSemillas() {
                     <div class="property-item" title="Estación de siembra: ${semilla.estacion_siembra}">
                         <img src="../img/properties/estacion_siembra/${semilla.estacion_siembra}.png" alt="${semilla.estacion_siembra}">
                     </div>
+                    <div class="property-item" title="Dificultad: ${semilla.dificultad}">
+                        <img src="../img/properties/dificultad/${semilla.dificultad}.png" alt="${semilla.dificultad}">
+                    </div>
+                    <div class="property-item" title="Cuidados: ${semilla.cuidados}">
+                        <img src="../img/properties/cuidados/${semilla.cuidados}.png" alt="${semilla.cuidados}">
+                    </div>
+                    <div class="property-item" title="Producción: ${semilla.produccion}">
+                        <img src="../img/properties/produccion/${semilla.produccion}.png" alt="${semilla.produccion}">
+                    </div>
                     ${semilla.invernadero ? '<div class="property-item" title="Requiere invernadero"><img src="../img/properties/extras/invernadero.png" alt="Invernadero"></div>' : ''}
                 </div>
                 <p class="product-price">${semilla.precio}€</p>
