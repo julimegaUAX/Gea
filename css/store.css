@@ -56,16 +56,37 @@ body {
     margin: 10px 0;
 }
 
-.product-properties ul {
-    list-style: none;
-    padding: 0;
+.product-properties {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px 0;
+    flex-wrap: wrap;
 }
 
-.product-properties li {
+.property-item {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
     background: #f0f0f0;
-    padding: 5px;
-    margin: 3px 0;
-    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 2px solid #2c5f2d;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: help;
+}
+
+.property-item:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 8px rgba(44, 95, 45, 0.3);
+}
+
+.property-item img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
 }
 
 .add-to-cart-btn {
@@ -108,7 +129,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s, transform 0.1s;
+    transition: background 0.2s;
+    transform: 0.1s;
 }
 
 .quantity-btn:hover {
@@ -128,10 +150,154 @@ body {
     text-align: center;
 }
 
+.menu-desplegable{
+    background-color: white;
+    position: fixed;
+    bottom: 0;
+    height: 92%;
+    left: 0;
+    width: 95%;
+    z-index: 1;
+    font-size: 2.25em;
+    display: none;
+}
+
+.menu-desplegable.active {
+    display: block;
+}
+
+.menu-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 35%;
+    width: 100%;
+    gap: 30px;
+}
+
+.menu-item-link {
+    text-decoration: none;
+    color: black;
+    width: 100%;
+    display: block;
+}
+
+.menu-item{
+    padding: 15px 0;
+    width: 100%;
+    text-align: center;
+    border-top: 2px solid #2c5f2d;
+    border-bottom: 2px solid #2c5f2d;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.menu-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.menu-item-home{
+    background-color: #e0e0e0;
+}
+
+.menu-item-store{
+    background-color: #c0c0c0;
+}
+
+.menu-item-about{
+    background-color: #8e8e8e;
+    color: white;
+}
+
+
+
 /* === Responsive Navegacion === */
 
 /* Responsive Mini */
+@media (min-width: 300px){
+    .nav-container {
+        background-color: #2c5f2d;
+        padding: 10px 20px;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
 
+    .nav-content {
+        max-width: 100%;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        color: white;
+        text-decoration: none;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .logo-img {
+        height: 72px;
+        margin: 6px 6px;
+    }
+
+    .logo-text {
+        border-left: 5px solid white;
+        padding: 10px;
+        font-size: 2em;
+
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .nav-selected {
+        font-weight: bold;
+        border-bottom: 5px solid white;
+    }
+
+    .nav-links a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .nav-links a:hover {
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .menu {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+    }
+
+
+    .menu-icon,
+    .login-icon,
+    .shopping-icon {
+        height: 32px;
+        cursor: pointer;
+    }
+
+    .close-icon{
+        height: 32px;
+        cursor: pointer;
+        display: none;
+    }
+
+
+}
 /* -- Responsive Movil -- */
 
 @media (min-width: 530px) {
@@ -156,6 +322,11 @@ body {
         display: flex;
         align-items: center;
         color: white;
+        text-decoration: none;
+    }
+
+    a {
+        text-decoration: none;
     }
 
     .logo-img {
@@ -167,7 +338,6 @@ body {
         border-left: 5px solid white;
         padding: 10px;
         font-size: 2em;
-        text-decoration: none;
 
     }
 
@@ -218,7 +388,6 @@ body {
 
     .logo-text {
         font-size: 2em;
-        text-decoration: none;
     }
 
     .menu-icon,
@@ -249,7 +418,6 @@ body {
 
     .logo-text {
         font-size: 2em;
-        text-decoration: none;
     }
 
     .nav-links {

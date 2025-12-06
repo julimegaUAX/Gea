@@ -23,6 +23,21 @@ async function cargarSemillas() {
             productDiv.innerHTML = `
                 <img src="../img/${semilla.tipo_planta}/${nombreImagen}.png" alt="${semilla.nombre}" class="product-image">
                 <h2 class="product-name">${semilla.nombre}</h2>
+                <div class="product-properties">
+                    <div class="property-item" title="Luz: ${semilla.necesidad_luz}">
+                        <img src="../img/properties/luz/${semilla.necesidad_luz}.png" alt="${semilla.necesidad_luz}">
+                    </div>
+                    <div class="property-item" title="Riego: ${semilla.riego}">
+                        <img src="../img/properties/riego/${semilla.riego}.png" alt="${semilla.riego}">
+                    </div>
+                    <div class="property-item" title="Resistencia al frío: ${semilla.resistencia_frio}">
+                        <img src="../img/properties/resistencia_frio/${semilla.resistencia_frio}.png" alt="${semilla.resistencia_frio}">
+                    </div>
+                    <div class="property-item" title="Estación de siembra: ${semilla.estacion_siembra}">
+                        <img src="../img/properties/estacion_siembra/${semilla.estacion_siembra}.png" alt="${semilla.estacion_siembra}">
+                    </div>
+                    ${semilla.invernadero ? '<div class="property-item" title="Requiere invernadero"><img src="../img/properties/extras/invernadero.png" alt="Invernadero"></div>' : ''}
+                </div>
                 <p class="product-price">${semilla.precio}€</p>
                 <button class="add-to-cart-btn" 
                         data-id="${semilla.id}" 
@@ -266,3 +281,23 @@ if (viewCartBtn) {
         window.location.href = 'cart.html';
     });
 }
+
+document.getElementById('menu-icon').addEventListener('click', function() {
+    const menu = document.querySelector('.menu-desplegable');
+    const menuIcon = document.getElementById('menu-icon');
+    const closeIcon = document.getElementById('close-icon');
+    
+    menu.classList.add('active');
+    menuIcon.style.display = 'none';
+    closeIcon.style.display = 'block';
+});
+
+document.getElementById('close-icon').addEventListener('click', function() {
+    const menu = document.querySelector('.menu-desplegable');
+    const menuIcon = document.getElementById('menu-icon');
+    const closeIcon = document.getElementById('close-icon');
+    
+    menu.classList.remove('active');
+    menuIcon.style.display = 'block';
+    closeIcon.style.display = 'none';
+});
