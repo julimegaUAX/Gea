@@ -13,26 +13,34 @@
 		<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 	</head>
 	<body>
-		<nav class="nav-container">
-			<div class="nav-content">
-				<div class="logo">
-					<img src="../img/assets/gea.svg" alt="Gea Logo" class="logo-img" />
-					<h1 class="logo-text">Gea</h1>
-				</div>
-				<ul class="nav-links">
-					<li><a href="index.html">Inicio</a></li>
-					<li><a href="store.html">Tienda</a></li>
-					<li class="nav-selected">Sobre Nosotros</li>
-				</ul>
-				<div class="menu">
-					<a href="login.html"><img src="../img/assets/menu/login.svg" alt="Login Icon" class="login-icon" /></a>
-					<a href="cart.html"><img src="../img/assets/menu/shopping_cart.svg" alt="Shopping Cart Icon" class="shopping-icon" /></a>
-					<img src="../img/assets/menu/menu.svg" alt="Menu Icon" class="menu-icon" />
+	<nav class="nav-container">
+		<div class="nav-content">
+			<div class="logo">
+				<img src="../img/assets/gea.svg" alt="Gea Logo" class="logo-img" />
+				<h1 class="logo-text">Gea</h1>
+			</div>
+			<ul class="nav-links">
+				<li><a href="index.html">Inicio</a></li>
+				<li><a href="store.html">Tienda</a></li>
+				<li class="nav-selected">Sobre Nosotros</li>
+			</ul>
+			<div class="menu">
+				<a href="login.html"><img src="../img/assets/menu/login.svg" alt="Login Icon" class="login-icon" /></a>
+				<a href="cart.html"><img src="../img/assets/menu/shopping_cart.svg" alt="Shopping Cart Icon" class="shopping-icon" /></a>
+				<div class="menu-toggle">
+					<img src="../img/assets/menu/menu.svg" alt="Menu Icon" class="menu-icon" id="menu-icon" />
 				</div>
 			</div>
-		</nav>
-
-		<header class="about-hero">
+		</div>
+		<!-- Menú móvil desplegable -->
+		<div class="mobile-menu" id="mobile-menu">
+			<ul>
+				<li><a href="index.html">Inicio</a></li>
+				<li><a href="store.html">Tienda</a></li>
+				<li><a href="about.html">Sobre Nosotros</a></li>
+			</ul>
+		</div>
+	</nav>		<header class="about-hero">
 			<div class="container">
 				<h2>Sobre Gea</h2>
 				<p>Semillas de calidad, cultivo sostenible y asesoramiento cercano.</p>
@@ -131,7 +139,7 @@
 			</div>
 		</section>
 
-		<!-- Modal de Contacto -->
+		<!-- Contacto -->
 		<div id="contactModal" class="modal">
 			<div class="modal-content">
 				<span class="close">&times;</span>
@@ -160,7 +168,33 @@
 
 		<footer class="footer">
 			<div class="container">
-				<p>&copy; 2025 Gea Semillas. Cultiva con sentido.</p>
+				<div class="footer-content">
+					<div class="footer-section">
+						<h4>Enlaces</h4>
+						<ul>
+							<li><a href="index.html">Inicio</a></li>
+							<li><a href="store.html">Tienda</a></li>
+							<li><a href="about.html">Sobre Nosotros</a></li>
+						</ul>
+					</div>
+					<div class="footer-section">
+						<h4>Contacto</h4>
+						<p>📧 info@gea-semillas.com</p>
+						<p>📞 +34 900 123 456</p>
+						<p>📍 C/ Primavera 27, Madrid</p>
+					</div>
+					<div class="footer-section">
+						<h4>Síguenos</h4>
+						<div class="social-links">
+							<a href="https://www.facebook.com" target="_blank" class="social-link">Facebook</a>
+							<a href="https://www.instagram.com" target="_blank" class="social-link">Instagram</a>
+							<a href="https://www.twitter.com" target="_blank" class="social-link">Twitter</a>
+						</div>
+					</div>
+				</div>
+				<div class="footer-bottom">
+					<p>&copy; 2025 Gea Semillas. Todos los derechos reservados.</p>
+				</div>
 			</div>
 		</footer>
 

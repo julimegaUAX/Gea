@@ -12,6 +12,7 @@ async function cargarSemillas() {
         semillas.forEach(semilla => {
             const productDiv = document.createElement('div');
             productDiv.className = 'product-card';
+            productDiv.setAttribute('data-type', semilla.tipo_planta);
             
             // Normalizar el nombre para la ruta de la imagen (sin tildes, en minúsculas, espacios -> _)
             const nombreImagen = semilla.nombre
@@ -272,6 +273,58 @@ document.addEventListener('DOMContentLoaded', function() {
     cargarSemillas();
     updateCartCount();
     updateCartFooter();
+    
+    // Añadir evento al botón "Continuar" del carrito
+    const viewCartBtn = document.querySelector('.view-cart-btn');
+    if (viewCartBtn) {
+        viewCartBtn.addEventListener('click', function() {
+            window.location.href = 'cart.html';
+        });
+    }
+
+    // Filtrador de productos
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const filterValue = this.getAttribute('data-filter');
+            
+            // Actualizar botón activo
+            filterBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Filtrar productos y títulos
+            const categoryNames = document.querySelectorAll('.store-name');
+            const productLists = document.querySelectorAll('.product-list');
+            const productCards = document.querySelectorAll('.product-card');
+            
+            categoryNames.forEach((name, index) => {
+                const category = name.getAttribute('data-category');
+                const list = productLists[index];
+                
+                if (filterValue === 'all') {
+                    name.classList.remove('hidden');
+                    list.classList.remove('hidden');
+                } else {
+                    if (category === filterValue) {
+                        name.classList.remove('hidden');
+                        list.classList.remove('hidden');
+                    } else {
+                        name.classList.add('hidden');
+                        list.classList.add('hidden');
+                    }
+                }
+            });
+            
+            productCards.forEach(card => {
+                if (filterValue === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    const productType = card.getAttribute('data-type');
+                    card.style.display = productType === filterValue ? 'block' : 'none';
+                }
+            });
+        });
+    });
 });
 
 // Agregar evento al botón de continuar
