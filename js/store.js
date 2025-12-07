@@ -1,3 +1,93 @@
+// Definición de propiedades para el catálogo
+const propiedadesConfig = [
+    {
+        clase: 'luz-propiedad',
+        titulo: 'Luz deseada para la planta',
+        niveles: [
+            { nombre: 'Sol', icono: '../img/properties/luz/sol.png' },
+            { nombre: 'Semisombra', icono: '../img/properties/luz/semisombra.png' },
+            { nombre: 'Sombra', icono: '../img/properties/luz/sombra.png' }
+        ]
+    },
+    {
+        clase: 'agua-propiedad',
+        titulo: 'Frecuencia de riego recomendada',
+        niveles: [
+            { nombre: 'Bajo', icono: '../img/properties/riego/bajo.png' },
+            { nombre: 'Medio', icono: '../img/properties/riego/medio.png' },
+            { nombre: 'Alto', icono: '../img/properties/riego/alto.png' }
+        ]
+    },
+    {
+        clase: 'resistencia_frio-propiedad',
+        titulo: 'Resistencia al frío de la planta',
+        niveles: [
+            { nombre: 'Baja', icono: '../img/properties/resistencia_frio/baja.png' },
+            { nombre: 'Media', icono: '../img/properties/resistencia_frio/media.png' },
+            { nombre: 'Alta', icono: '../img/properties/resistencia_frio/alta.png' }
+        ]
+    },
+    {
+        clase: 'estacion_siembra-propiedad',
+        titulo: 'Estación recomendada para la siembra',
+        niveles: [
+            { nombre: 'Primavera', icono: '../img/properties/estacion_siembra/primavera.png' },
+            { nombre: 'Verano', icono: '../img/properties/estacion_siembra/verano.png' },
+            { nombre: 'Otoño', icono: '../img/properties/estacion_siembra/otoño.png' },
+            { nombre: 'Invierno', icono: '../img/properties/estacion_siembra/invierno.png' }
+        ]
+    },
+    {
+        clase: 'dificultad-propiedad',
+        titulo: 'Dificultad de cultivo',
+        niveles: [
+            { nombre: 'Fácil', icono: '../img/properties/dificultad/facil.png' },
+            { nombre: 'Intermedio', icono: '../img/properties/dificultad/intermedio.png' },
+            { nombre: 'Avanzado', icono: '../img/properties/dificultad/avanzado.png' }
+        ]
+    },
+    {
+        clase: 'cuidados-propiedad',
+        titulo: 'Nivel de cuidados necesarios',
+        niveles: [
+            { nombre: 'Bajo', icono: '../img/properties/cuidados/bajo.png' },
+            { nombre: 'Medio', icono: '../img/properties/cuidados/medio.png' },
+            { nombre: 'Alto', icono: '../img/properties/cuidados/alto.png' }
+        ]
+    },
+    {
+        clase: 'produccion-propiedad',
+        titulo: 'Nivel de producción esperado',
+        niveles: [
+            { nombre: 'Baja', icono: '../img/properties/produccion/baja.png' },
+            { nombre: 'Media', icono: '../img/properties/produccion/media.png' },
+            { nombre: 'Alta', icono: '../img/properties/produccion/alta.png' }
+        ]
+    },
+    {
+        clase: 'extras-propiedad',
+        titulo: 'Características adicionales',
+        niveles: [
+            { nombre: 'Invernadero', icono: '../img/properties/extras/invernadero.png' }
+        ]
+    }
+];
+
+// Función para generar el catálogo de propiedades dinámicamente
+function generarCatalogoPropiedades() {
+    const container = document.getElementById('propiedades-container');
+    if (!container) return;
+    
+    container.innerHTML = propiedadesConfig.map(propiedad => `
+        <div class="${propiedad.clase}">
+            ${propiedad.niveles.map(nivel => 
+                `<img src="${nivel.icono}" alt="Icono ${nivel.nombre}" class="propiedad-icon">`
+            ).join('')}
+            <p>${propiedad.titulo}</p>
+        </div>
+    `).join('');
+}
+
 async function cargarSemillas() {
     try {
         const response = await fetch('../data/semillas.json');
@@ -25,28 +115,28 @@ async function cargarSemillas() {
                 <img src="../img/${semilla.tipo_planta}/${nombreImagen}.png" alt="${semilla.nombre}" class="product-image">
                 <h2 class="product-name">${semilla.nombre}</h2>
                 <div class="product-properties">
-                    <div class="property-item" title="Luz: ${semilla.necesidad_luz}">
+                    <div class="property-item">
                         <img src="../img/properties/luz/${semilla.necesidad_luz}.png" alt="${semilla.necesidad_luz}">
                     </div>
-                    <div class="property-item" title="Riego: ${semilla.riego}">
+                    <div class="property-item">
                         <img src="../img/properties/riego/${semilla.riego}.png" alt="${semilla.riego}">
                     </div>
-                    <div class="property-item" title="Resistencia al frío: ${semilla.resistencia_frio}">
+                    <div class="property-item">
                         <img src="../img/properties/resistencia_frio/${semilla.resistencia_frio}.png" alt="${semilla.resistencia_frio}">
                     </div>
-                    <div class="property-item" title="Estación de siembra: ${semilla.estacion_siembra}">
+                    <div class="property-item">
                         <img src="../img/properties/estacion_siembra/${semilla.estacion_siembra}.png" alt="${semilla.estacion_siembra}">
                     </div>
-                    <div class="property-item" title="Dificultad: ${semilla.dificultad}">
+                    <div class="property-item">
                         <img src="../img/properties/dificultad/${semilla.dificultad}.png" alt="${semilla.dificultad}">
                     </div>
-                    <div class="property-item" title="Cuidados: ${semilla.cuidados}">
+                    <div class="property-item">
                         <img src="../img/properties/cuidados/${semilla.cuidados}.png" alt="${semilla.cuidados}">
                     </div>
-                    <div class="property-item" title="Producción: ${semilla.produccion}">
+                    <div class="property-item">
                         <img src="../img/properties/produccion/${semilla.produccion}.png" alt="${semilla.produccion}">
                     </div>
-                    ${semilla.invernadero ? '<div class="property-item" title="Requiere invernadero"><img src="../img/properties/extras/invernadero.png" alt="Invernadero"></div>' : ''}
+                    ${semilla.invernadero ? '<div class="property-item"><img src="../img/properties/extras/invernadero.png" alt="Invernadero"></div>' : ''}
                 </div>
                 <p class="product-price">${semilla.precio}€</p>
                 <button class="add-to-cart-btn" 
@@ -279,6 +369,7 @@ function updateCartFooter() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    generarCatalogoPropiedades();
     cargarSemillas();
     updateCartCount();
     updateCartFooter();
@@ -346,20 +437,40 @@ if (viewCartBtn) {
 
 document.getElementById('menu-icon').addEventListener('click', function() {
     const menu = document.querySelector('.menu-desplegable');
+    const overlay = document.getElementById('menu-overlay');
     const menuIcon = document.getElementById('menu-icon');
     const closeIcon = document.getElementById('close-icon');
     
     menu.classList.add('active');
+    overlay.classList.add('active');
     menuIcon.style.display = 'none';
     closeIcon.style.display = 'block';
+    document.body.style.overflow = 'hidden';
 });
 
 document.getElementById('close-icon').addEventListener('click', function() {
     const menu = document.querySelector('.menu-desplegable');
+    const overlay = document.getElementById('menu-overlay');
     const menuIcon = document.getElementById('menu-icon');
     const closeIcon = document.getElementById('close-icon');
     
     menu.classList.remove('active');
+    overlay.classList.remove('active');
     menuIcon.style.display = 'block';
     closeIcon.style.display = 'none';
+    document.body.style.overflow = 'auto';
+});
+
+// Cerrar menú al hacer click en el overlay
+document.getElementById('menu-overlay').addEventListener('click', function() {
+    const menu = document.querySelector('.menu-desplegable');
+    const overlay = document.getElementById('menu-overlay');
+    const menuIcon = document.getElementById('menu-icon');
+    const closeIcon = document.getElementById('close-icon');
+    
+    menu.classList.remove('active');
+    overlay.classList.remove('active');
+    menuIcon.style.display = 'block';
+    closeIcon.style.display = 'none';
+    document.body.style.overflow = 'auto';
 });
