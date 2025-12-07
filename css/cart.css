@@ -331,3 +331,48 @@ body {
         margin-top: 20px;
     }
 }
+
+/* Móvil (<= 480px) */
+@media (max-width: 480px) {
+    .container { padding: 0 12px; }
+    .nav-content { max-width: 100%; gap: 10px; }
+    .logo-img { height: 52px; }
+    .logo-text { font-size: 1.2em; padding: 8px; }
+    .menu { gap: 14px; }
+    .menu-icon, .login-icon, .shopping-icon { height: 26px; }
+
+    .cart-section { padding: 24px 0; }
+    .cart-section h2 { font-size: 1.5rem; }
+
+    .cart-table { display: block; width: 100%; overflow-x: auto; font-size: 0.86em; }
+    .cart-table thead { display: none; }
+    .cart-table tbody, .cart-table tr, .cart-table td { display: block; width: 100%; }
+    .cart-table tr {
+        margin-bottom: 12px;
+        border: 1px solid #e6e6e6;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        background: #fff;
+        overflow: hidden;
+    }
+    .cart-table td { padding: 10px 11px; border-bottom: 1px solid #f0f0f0; }
+    .cart-table td:last-child { border-bottom: none; }
+    .cart-table td:nth-child(1)::before { content: "Producto"; }
+    .cart-table td:nth-child(2)::before { content: "Precio"; }
+    .cart-table td:nth-child(3)::before { content: "Cantidad"; }
+    .cart-table td:nth-child(4)::before { content: "Subtotal"; }
+    .cart-table td:nth-child(5)::before { content: "Acciones"; }
+    .cart-table td::before {
+        display: block;
+        font-weight: 700;
+        color: #2c5f2d;
+        margin-bottom: 6px;
+    }
+
+    .quantity-control { flex-direction: row; gap: 10px; }
+    .qty-input { width: 46px; }
+
+    .cart-summary { max-width: 100%; margin: 18px 0 0; padding: 16px; }
+    .summary-item, .summary-total { font-size: 0.92em; }
+    .btn { width: 100%; font-size: 0.96em; padding: 11px 14px; }
+}
