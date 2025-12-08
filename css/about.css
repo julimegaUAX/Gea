@@ -310,12 +310,12 @@ a {
     margin-bottom: 0.5rem;
 }
 
-.about-hero p {
+.inicio-container p {
     font-size: 1.5rem;
     opacity: 0.95;
 }
 
-/* === About Section === */
+/* === Seccion Sobre Nosotros === */
 
 .about-section {
     background: #f8f9fa;
@@ -432,7 +432,7 @@ a {
     font-weight: 600;
 }
 
-/* === Map Section === */
+/* === Seccion Map === */
 
 .map-section {
     background: #fff;
@@ -499,7 +499,7 @@ a {
     border: 3px solid #2ecc40;
 }
 
-/* === CTA === */
+/* === Contactar Ver Tienda === */
 
 .cta {
     background: #f0f5f0;
