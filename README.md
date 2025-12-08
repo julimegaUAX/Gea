@@ -1,4 +1,4 @@
-[[<div align="center">
+<div align="center">
   <img src="img/assets/gea.svg" alt="Gea Logo" width="200"/>
   
   # 🌱 Gea - Tienda Online de Semillas
