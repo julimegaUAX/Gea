@@ -3,7 +3,6 @@
   
   # 🌱 Gea - Tienda Online de Semillas
 </div>
----
 
 Gea es una tienda online de semillas de plantas. El proyecto incluye **5 páginas principales**: Inicio (con estadísticas y FAQ), Tienda (catálogo de 48 productos), Carrito, Login y Sobre Nosotros.
 
