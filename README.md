@@ -129,4 +129,3 @@ Características principales:
   <br>
   Miguel, Julio y Dimitiz
 </div>
-](https://github.com/julimegaUAX/Gea)](https://github.com/julimegaUAX/Gea)
