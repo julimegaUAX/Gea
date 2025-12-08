@@ -295,7 +295,7 @@ a {
     font-size: 0.5em;
 }
 
-/* === Login Container === */
+/* === Login / Registrarse === */
 
 .img {
     height: 30px;
@@ -496,7 +496,7 @@ a {
     transform: translateX(200%);
 }
 
-/* === Media Queries para Login Container === */
+/* === Media Queries para Div Login === */
 
 @media (max-width: 767px) {
     .container form {
