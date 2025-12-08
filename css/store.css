@@ -443,7 +443,7 @@ body {
     }
 }
 
-/* === Store === */
+/* === Store Parte Listas === */
 
 .product-list {
     display: grid;
@@ -541,6 +541,9 @@ body {
         font-size: 1em;
         padding-right: 10px;
     }
+
+/* === Store Parte Productos === */
+
 }
 .product-card {
     border: 1px solid #ddd;
@@ -617,6 +620,7 @@ body {
     border-radius: 8px;
 }
 
+/* === Botones y Controles === */
 .add-to-cart-btn {
     width: 100%;
     padding: clamp(10px, 2vw, 15px);
@@ -692,12 +696,11 @@ body {
     min-width: 25px;
     text-align: center;
 }
-
-
 .menu-toggle {
 	cursor: pointer;
 }
 
+/* === Store Parte Carrito Inferior === */
 .show-cart {
     background-color: #2c5f2d;
     position: fixed;
@@ -839,7 +842,7 @@ body {
     }
 }
 
-/* Footer */
+/* === Footer === */
 .footer {
     background: #2d5016;
     color: white;
