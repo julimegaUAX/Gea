@@ -2,7 +2,7 @@
 
     id: Identificador único de semilla (PRIMARY KEY)
     nombre: Nombre de la planta
-    precio: Precio par 200gr de semilla
+    precio: Precio para 200gr de semilla
     tipo: 
         herb (Hierba Aromática)
         veg (Verdura) 

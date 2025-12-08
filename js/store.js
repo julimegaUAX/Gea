@@ -1,4 +1,4 @@
-// Definición de propiedades para el catálogo
+// === Catálogo de propiedades dinámico ===
 const propiedadesConfig = [
     {
         clase: 'luz-propiedad',
@@ -73,11 +73,8 @@ const propiedadesConfig = [
     }
 ];
 
-// Función para generar el catálogo de propiedades dinámicamente
 function generarCatalogoPropiedades() {
     const container = document.getElementById('propiedades-container');
-    if (!container) return;
-    
     container.innerHTML = propiedadesConfig.map(propiedad => `
         <div class="${propiedad.clase}">
             ${propiedad.niveles.map(nivel => 
@@ -88,6 +85,7 @@ function generarCatalogoPropiedades() {
     `).join('');
 }
 
+// === Cargar semillas y generar catálogo de productos ===
 async function cargarSemillas() {
     try {
         const response = await fetch('../data/semillas.json');
@@ -104,7 +102,6 @@ async function cargarSemillas() {
             productDiv.className = 'product-card';
             productDiv.setAttribute('data-type', semilla.tipo_planta);
             
-            // Normalizar el nombre para la ruta de la imagen (sin tildes, en minúsculas, espacios -> _)
             const nombreImagen = semilla.nombre
                 .toLowerCase()
                 .normalize("NFD")
@@ -153,7 +150,6 @@ async function cargarSemillas() {
                 </div>
             `;
             
-            // Añadir al div correspondiente según el tipo de planta
             if (semilla.tipo_planta === 'herb') {
                 herbList.appendChild(productDiv);
             } else if (semilla.tipo_planta === 'veg') {
@@ -169,7 +165,6 @@ async function cargarSemillas() {
             }
         });
 
-        // Agregar event listeners a los botones después de crear los elementos
         document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const id = this.getAttribute('data-id');
@@ -180,15 +175,10 @@ async function cargarSemillas() {
             });
         });
 
-        // Event listeners para botones de cantidad
         document.querySelectorAll('.plus-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const id = this.getAttribute('data-id');
-                const productCard = this.closest('.product-card');
-                const nombre = productCard.querySelector('.add-to-cart-btn').getAttribute('data-nombre');
-                const precio = parseFloat(productCard.querySelector('.add-to-cart-btn').getAttribute('data-precio'));
-                const tipo_planta = productCard.querySelector('.add-to-cart-btn').getAttribute('data-tipo');
-                addToCart({ id, nombre, precio, tipo_planta });
+                incrementQuantity(id);
             });
         });
 
@@ -199,7 +189,6 @@ async function cargarSemillas() {
             });
         });
 
-        // Actualizar UI para productos ya en el carrito
         updateProductUI();
 
     } catch (error) {
@@ -207,7 +196,7 @@ async function cargarSemillas() {
     }
 }
 
-// Carrito - Gestionar con localStorage
+// === Carrito de compras ===
 function getCart() {
     const cart = localStorage.getItem('carrito');
     return cart ? JSON.parse(cart) : [];
@@ -234,10 +223,22 @@ function addToCart(product) {
     }
 
     saveCart(cart);
-    showNotification(`${product.nombre} añadido al carrito`);
     updateCartCount();
     updateCartFooter();
     updateProductUI();
+}
+
+function incrementQuantity(productId) {
+    let cart = getCart();
+    const existingItem = cart.find(item => item.id === productId);
+
+    if (existingItem) {
+        existingItem.cantidad++;
+        saveCart(cart);
+        updateCartCount();
+        updateCartFooter();
+        updateProductUI();
+    }
 }
 
 function removeFromCart(productId) {
@@ -263,7 +264,6 @@ function removeFromCart(productId) {
 function updateProductUI() {
     const cart = getCart();
     
-    // Recorrer todos los productos
     document.querySelectorAll('.product-card').forEach(card => {
         const addBtn = card.querySelector('.add-to-cart-btn');
         const quantityControls = card.querySelector('.quantity-controls');
@@ -272,12 +272,10 @@ function updateProductUI() {
         const cartItem = cart.find(item => item.id === productId);
         
         if (cartItem && cartItem.cantidad > 0) {
-            // Producto está en el carrito - mostrar controles
             addBtn.style.display = 'none';
             quantityControls.style.display = 'flex';
             quantityControls.querySelector('.quantity-display').textContent = cartItem.cantidad;
         } else {
-            // Producto no está en el carrito - mostrar botón añadir
             addBtn.style.display = 'block';
             quantityControls.style.display = 'none';
         }
@@ -294,38 +292,19 @@ function updateCartCount() {
     }
 }
 
-// Función para mostrar notificaciones
-function showNotification(message) {
-    const notification = document.createElement('div');
-    notification.className = 'notification';
-    notification.textContent = message;
-    document.body.appendChild(notification);
-    
-    setTimeout(() => notification.classList.add('show'), 10);
-    
-    setTimeout(() => {
-        notification.classList.remove('show');
-        setTimeout(() => notification.remove(), 300);
-    }, 2000);
-}
-
-// Función para actualizar el footer del carrito
+// === Actualizar footer del carrito ===
 function updateCartFooter() {
     const cart = getCart();
     const footerEl = document.getElementById('cart-footer');
     
     if (!footerEl) return;
     
-    // Si el carrito está vacío, ocultar footer
     if (cart.length === 0) {
         footerEl.classList.remove('active');
         return;
     }
-    
-    // Mostrar footer
+
     footerEl.classList.add('active');
-    
-    // Contar items por categoría
     const categoryCounts = {
         herb: 0,
         veg: 0,
@@ -344,7 +323,6 @@ function updateCartFooter() {
         totalPrice += item.precio * item.cantidad;
     });
     
-    // Actualizar cada categoría en el DOM
     Object.keys(categoryCounts).forEach(category => {
         const categoryEl = document.querySelector(`.category-count[data-category="${category}"]`);
         if (categoryEl) {
@@ -361,80 +339,20 @@ function updateCartFooter() {
         }
     });
     
-    // Actualizar total
     const totalPriceEl = document.getElementById('cart-total-price');
     if (totalPriceEl) {
         totalPriceEl.textContent = totalPrice.toFixed(2);
     }
 }
-
+// === Activacion de funciones una vez cargada la página ===
 document.addEventListener('DOMContentLoaded', function() {
     generarCatalogoPropiedades();
     cargarSemillas();
     updateCartCount();
     updateCartFooter();
-    
-    // Añadir evento al botón "Continuar" del carrito
-    const viewCartBtn = document.querySelector('.view-cart-btn');
-    if (viewCartBtn) {
-        viewCartBtn.addEventListener('click', function() {
-            window.location.href = 'cart.html';
-        });
-    }
-
-    // Filtrador de productos
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const filterValue = this.getAttribute('data-filter');
-            
-            // Actualizar botón activo
-            filterBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            
-            // Filtrar productos y títulos
-            const categoryNames = document.querySelectorAll('.store-name');
-            const productLists = document.querySelectorAll('.product-list');
-            const productCards = document.querySelectorAll('.product-card');
-            
-            categoryNames.forEach((name, index) => {
-                const category = name.getAttribute('data-category');
-                const list = productLists[index];
-                
-                if (filterValue === 'all') {
-                    name.classList.remove('hidden');
-                    list.classList.remove('hidden');
-                } else {
-                    if (category === filterValue) {
-                        name.classList.remove('hidden');
-                        list.classList.remove('hidden');
-                    } else {
-                        name.classList.add('hidden');
-                        list.classList.add('hidden');
-                    }
-                }
-            });
-            
-            productCards.forEach(card => {
-                if (filterValue === 'all') {
-                    card.style.display = 'block';
-                } else {
-                    const productType = card.getAttribute('data-type');
-                    card.style.display = productType === filterValue ? 'block' : 'none';
-                }
-            });
-        });
-    });
 });
 
-// Agregar evento al botón de continuar
-const viewCartBtn = document.querySelector('.view-cart-btn');
-if (viewCartBtn) {
-    viewCartBtn.addEventListener('click', function() {
-        window.location.href = 'cart.html';
-    });
-}
-
+// === Menu desplegable ===
 document.getElementById('menu-icon').addEventListener('click', function() {
     const menu = document.querySelector('.menu-desplegable');
     const overlay = document.getElementById('menu-overlay');
@@ -448,7 +366,8 @@ document.getElementById('menu-icon').addEventListener('click', function() {
     document.body.style.overflow = 'hidden';
 });
 
-document.getElementById('close-icon').addEventListener('click', function() {
+// == Cerrar menu desplegable ==
+function cerrarMenu() {
     const menu = document.querySelector('.menu-desplegable');
     const overlay = document.getElementById('menu-overlay');
     const menuIcon = document.getElementById('menu-icon');
@@ -459,18 +378,6 @@ document.getElementById('close-icon').addEventListener('click', function() {
     menuIcon.style.display = 'block';
     closeIcon.style.display = 'none';
     document.body.style.overflow = 'auto';
-});
-
-// Cerrar menú al hacer click en el overlay
-document.getElementById('menu-overlay').addEventListener('click', function() {
-    const menu = document.querySelector('.menu-desplegable');
-    const overlay = document.getElementById('menu-overlay');
-    const menuIcon = document.getElementById('menu-icon');
-    const closeIcon = document.getElementById('close-icon');
-    
-    menu.classList.remove('active');
-    overlay.classList.remove('active');
-    menuIcon.style.display = 'block';
-    closeIcon.style.display = 'none';
-    document.body.style.overflow = 'auto';
-});
+}
+document.getElementById('close-icon').addEventListener('click', cerrarMenu);
+document.getElementById('menu-overlay').addEventListener('click', cerrarMenu);
