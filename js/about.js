@@ -56,7 +56,7 @@ contactForm.addEventListener('submit', function(e) {
 	modal.style.display = 'none';
 });
 
-// Menú desplegable
+// Menú desplegable activado
 document.getElementById('menu-icon').addEventListener('click', function() {
     const menu = document.querySelector('.menu-desplegable');
     const overlay = document.getElementById('menu-overlay');
@@ -70,7 +70,8 @@ document.getElementById('menu-icon').addEventListener('click', function() {
     document.body.style.overflow = 'hidden';
 });
 
-document.getElementById('close-icon').addEventListener('click', function() {
+// Función para cerrar el menú
+function cerrarMenu() {
     const menu = document.querySelector('.menu-desplegable');
     const overlay = document.getElementById('menu-overlay');
     const menuIcon = document.getElementById('menu-icon');
@@ -81,18 +82,6 @@ document.getElementById('close-icon').addEventListener('click', function() {
     menuIcon.style.display = 'block';
     closeIcon.style.display = 'none';
     document.body.style.overflow = 'auto';
-});
-
-// Cerrar menú al hacer click en el overlay
-document.getElementById('menu-overlay').addEventListener('click', function() {
-    const menu = document.querySelector('.menu-desplegable');
-    const overlay = document.getElementById('menu-overlay');
-    const menuIcon = document.getElementById('menu-icon');
-    const closeIcon = document.getElementById('close-icon');
-    
-    menu.classList.remove('active');
-    overlay.classList.remove('active');
-    menuIcon.style.display = 'block';
-    closeIcon.style.display = 'none';
-    document.body.style.overflow = 'auto';
-});
+}
+document.getElementById('close-icon').addEventListener('click', cerrarMenu);
+document.getElementById('menu-overlay').addEventListener('click', cerrarMenu);
