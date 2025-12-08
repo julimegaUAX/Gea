@@ -65,20 +65,43 @@ contactForm.addEventListener('submit', function(e) {
 	modal.style.display = 'none';
 });
 
-// Menú móvil
-const menuIcon = document.getElementById('menu-icon');
-const mobileMenu = document.getElementById('mobile-menu');
+// Menú desplegable
+document.getElementById('menu-icon').addEventListener('click', function() {
+    const menu = document.querySelector('.menu-desplegable');
+    const overlay = document.getElementById('menu-overlay');
+    const menuIcon = document.getElementById('menu-icon');
+    const closeIcon = document.getElementById('close-icon');
+    
+    menu.classList.add('active');
+    overlay.classList.add('active');
+    menuIcon.style.display = 'none';
+    closeIcon.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+});
 
-if (menuIcon && mobileMenu) {
-	menuIcon.addEventListener('click', function() {
-		mobileMenu.classList.toggle('active');
-	});
+document.getElementById('close-icon').addEventListener('click', function() {
+    const menu = document.querySelector('.menu-desplegable');
+    const overlay = document.getElementById('menu-overlay');
+    const menuIcon = document.getElementById('menu-icon');
+    const closeIcon = document.getElementById('close-icon');
+    
+    menu.classList.remove('active');
+    overlay.classList.remove('active');
+    menuIcon.style.display = 'block';
+    closeIcon.style.display = 'none';
+    document.body.style.overflow = 'auto';
+});
 
-	const mobileLinks = mobileMenu.querySelectorAll('a');
-	mobileLinks.forEach(link => {
-		link.addEventListener('click', function() {
-			mobileMenu.classList.remove('active');
-		});
-	});
-}
-
+// Cerrar menú al hacer click en el overlay
+document.getElementById('menu-overlay').addEventListener('click', function() {
+    const menu = document.querySelector('.menu-desplegable');
+    const overlay = document.getElementById('menu-overlay');
+    const menuIcon = document.getElementById('menu-icon');
+    const closeIcon = document.getElementById('close-icon');
+    
+    menu.classList.remove('active');
+    overlay.classList.remove('active');
+    menuIcon.style.display = 'block';
+    closeIcon.style.display = 'none';
+    document.body.style.overflow = 'auto';
+});

@@ -16,7 +16,8 @@ html, body{
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    min-height:100vh;
+    height: 100vh;
+    overflow: hidden;
     padding: 92px 0 20px 0;
 }
 .img{
@@ -80,6 +81,12 @@ html, body{
     flex-direction: column;
     padding: 30px 40px;
     height: 100%;
+}
+
+@media (max-width: 767px) {
+    .container form{
+        padding: 20px 30px;
+    }
 }
 
 .container input{
@@ -282,14 +289,13 @@ a {
 .menu {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 28px;
 }
 
 .menu-icon,
 .login-icon,
 .shopping-icon {
-    height: 36px;
-    width: 36px;
+    height: 32px;
     cursor: pointer;
 }
 
@@ -392,20 +398,30 @@ a {
 
 /* === Media Queries === */
 
+/* Responsive Móvil (530px - 767px) */
+@media (min-width: 530px) and (max-width: 767px) {
+    .nav-content {
+        max-width: 70%;
+        margin: 0 auto;
+    }
+}
+
 /* Responsive Mini (300px - 529px) */
 @media (min-width: 300px) and (max-width: 529px) {
     .container {
         width: 90%;
-        min-height: auto;
+        height: auto;
+        max-height: calc(100vh - 132px);
         flex-direction: column;
-        margin-bottom: 20px;
+        margin-bottom: 0;
+        overflow: hidden;
     }
     
     .form-container {
         position: relative;
         width: 100%;
         height: auto;
-        min-height: 400px;
+        min-height: 300px;
     }
     
     .sign-in {
@@ -438,7 +454,7 @@ a {
         height: auto;
         left: 0;
         border-radius: 0;
-        margin-top: 20px;
+        margin-top: 5px;
     }
     
     .container.active .toggle-container {
@@ -451,7 +467,7 @@ a {
         width: 100%;
         left: 0;
         height: auto;
-        padding: 20px;
+        padding: 10px;
     }
     
     .container.active .toggle {
@@ -461,8 +477,18 @@ a {
     .toggle-panel {
         position: relative;
         width: 100%;
-        padding: 30px 20px;
+        padding: 15px;
         transform: none !important;
+    }
+    
+    .toggle-panel h1 {
+        font-size: 1.2em;
+        margin-bottom: 8px;
+    }
+    
+    .toggle-panel p {
+        font-size: 0.9em;
+        margin: 10px 0;
     }
     
     .toggle-left {
@@ -486,15 +512,17 @@ a {
 @media (min-width: 530px) and (max-width: 767px) {
     .container {
         width: 85%;
-        min-height: auto;
-        margin-bottom: 20px;
+        height: auto;
+        max-height: calc(100vh - 132px);
+        margin-bottom: 0;
+        overflow: hidden;
     }
     
     .form-container {
         position: relative;
         width: 100%;
         height: auto;
-        min-height: 450px;
+        min-height: 350px;
     }
     
     .sign-in {
@@ -527,7 +555,7 @@ a {
         height: auto;
         left: 0;
         border-radius: 0;
-        margin-top: 20px;
+        margin-top: 5px;
     }
     
     .container.active .toggle-container {
@@ -540,7 +568,7 @@ a {
         width: 100%;
         left: 0;
         height: auto;
-        padding: 30px;
+        padding: 10px;
     }
     
     .container.active .toggle {
@@ -550,8 +578,18 @@ a {
     .toggle-panel {
         position: relative;
         width: 100%;
-        padding: 30px 20px;
+        padding: 15px;
         transform: none !important;
+    }
+    
+    .toggle-panel h1 {
+        font-size: 1.3em;
+        margin-bottom: 10px;
+    }
+    
+    .toggle-panel p {
+        font-size: 1em;
+        margin: 10px 0;
     }
     
     .toggle-left {
@@ -572,43 +610,11 @@ a {
 }
 
 /* Responsive Tablet (768px - 1104px) */
+/* Responsive Tablet (768px - 1104px) */
 @media (min-width: 768px) and (max-width: 1104px) {
     .nav-content {
-        max-width: 100%;
-    }
-    
-    .logo-img {
-        height: 64px;
-        margin: 6px;
-    }
-    
-    .logo-text {
-        font-size: 1.8em;
-    }
-    
-    .menu-icon,
-    .login-icon,
-    .shopping-icon {
-        height: 40px;
-        width: 40px;
-    }
-    
-    .container {
-        width: 768px;
-        max-width: 90%;
-    }
-}
-
-/* Responsive Ordenador (1105px+) */
-@media (min-width: 1105px) {
-    .nav-content {
-        max-width: 1200px;
+        max-width: 70%;
         margin: 0 auto;
-        padding: 0 20px;
-    }
-    
-    .logo {
-        flex: 0;
     }
     
     .logo-img {
@@ -620,14 +626,49 @@ a {
         font-size: 2em;
     }
     
+    .menu-icon,
+    .login-icon,
+    .shopping-icon {
+        height: 34px;
+    }
+    
+    .container {
+        width: 768px;
+        max-width: 90%;
+    }
+}
+/* Responsive Ordenador (1105px+) */
+@media (min-width: 1105px) {
+    .nav-content {
+        max-width: 70%;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+        align-items: center;
+    }
+    
+    .logo {
+        justify-self: start;
+    }
+    
+    .logo-img {
+        height: 72px;
+        margin: 6px 0;
+    }
+    
+    .logo-text {
+        font-size: 2em;
+    }
+    
     .nav-links {
         display: flex;
         list-style: none;
-        gap: 30px;
-        flex: 1;
+        gap: 28px;
         justify-content: center;
-        align-items: center;
-        font-size: 1.1em;
+        justify-self: center;
+        font-size: 1.4em;
+        margin: 0;
+        padding: 0;
     }
     
     .nav-links li {
@@ -635,7 +676,8 @@ a {
     }
     
     .menu {
-        flex: 0;
+        justify-self: end;
+        gap: 28px;
     }
     
     .menu-icon {
@@ -644,8 +686,7 @@ a {
     
     .login-icon,
     .shopping-icon {
-        height: 40px;
-        width: 40px;
+        height: 35px;
     }
     
     .menu-icon:hover,
