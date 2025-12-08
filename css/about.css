@@ -25,8 +25,8 @@ body {
 	box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 .nav-content {
-	max-width: 70%;
-	margin: 0 auto;
+	max-width: 100%;
+	margin: 0;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -40,6 +40,10 @@ a { text-decoration: none; }
 .nav-links a { color: white; text-decoration: none; }
 .menu { display: flex; align-items: center; gap: 28px; }
 .menu-icon, .login-icon, .shopping-icon { height: 32px; cursor: pointer; }
+@media (min-width: 530px) {
+	.nav-content { max-width: 70%; margin: 0 auto; }
+}
+
 @media (min-width: 768px) {
 	.nav-content { max-width: 70%; }
 	.logo-img { height: 72px; margin: 6px 6px; }

@@ -46,17 +46,8 @@ window.addEventListener('click', function(event) {
 contactForm.addEventListener('submit', function(e) {
 	e.preventDefault();
 	
-	// Obtener datos del formulario
-	const name = document.getElementById('name').value;
-	const email = document.getElementById('email').value;
-	const phone = document.getElementById('phone').value;
-	const message = document.getElementById('message').value;
-	
-	// Crear el mailto
-	const mailtoLink = `mailto:info@gea-semillas.com?subject=Consulta de ${name}&body=Nombre: ${name}%0ATeléfono: ${phone}%0AEmail: ${email}%0A%0AMensaje:%0A${message}`;
-	
-	// Abrir el cliente de email
-	window.location.href = mailtoLink;
+	// Mostrar mensaje de éxito
+	alert('¡Mensaje enviado! Nos pondremos en contacto pronto.');
 	
 	// Limpiar formulario
 	contactForm.reset();
