@@ -249,9 +249,6 @@ function removeFromCart(productId) {
         existingItem.cantidad--;
         if (existingItem.cantidad <= 0) {
             cart = cart.filter(item => item.id !== productId);
-            showNotification(`Producto eliminado del carrito`);
-        } else {
-            showNotification(`Cantidad actualizada`);
         }
     }
 
