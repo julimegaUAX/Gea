@@ -100,6 +100,23 @@ a {
         cursor: pointer;
         display: none;
     }
+
+    .logout-btn {
+        display: none;
+        border: 1px solid #ffffff;
+        background: transparent;
+        color: #ffffff;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+
+    .logout-btn:hover {
+        background: #ffffff;
+        color: #2c5f2d;
+    }
 }
 
 /* -- Responsive Movil -- */

@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Gea | Login</title>
         <link rel="stylesheet" href="../css/login.css">
+        <link rel="stylesheet" href="../css/auth.css">
         <link rel="icon" href="../img/assets/gea_favicon.svg" type="image/svg">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,17 +14,17 @@
     <body>
         <nav class="nav-container">
             <div class="nav-content">
-                <a href="index.html" class="logo">
+                <a href="../index.html" class="logo">
                     <img src="../img/assets/gea.svg" alt="Gea Logo" class="logo-img">
                     <h1 class="logo-text">Gea</h1>
                 </a>
                 <ul class="nav-links">
-                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="../index.html">Inicio</a></li>
                     <li><a href="store.html">Tienda</a></li>
                     <li><a href="about.html">Sobre Nosotros</a></li>
                 </ul>
                 <div class="menu">
-                    <a href="login.html"><img src="../img/assets/menu/login.svg" alt="Login Icon" class="login-icon"></a>
+                    <a href="login.html" class="login-link"><img src="../img/assets/menu/login.svg" alt="Login Icon" class="login-icon"></a>
                     <a href="cart.html"><img src="../img/assets/menu/shopping_cart.svg" alt="Shopping Cart Icon" class="shopping-icon"></a>
                     <img src="../img/assets/menu/menu.svg" alt="Menu Icon" class="menu-icon" id="menu-icon">
                     <img src="../img/assets/menu/close.svg" alt="Close Menu Icon" class="close-icon" id="close-icon">
@@ -32,7 +33,7 @@
         </nav>
         <div class="menu-desplegable" id="menu-desplegable">
             <div class="menu-content">
-                <a href="index.html" class="menu-item-link">
+                <a href="../index.html" class="menu-item-link">
                     <div class="menu-item menu-item-home">Inicio</div>
                 </a>
                 <a href="store.html" class="menu-item-link">
@@ -49,7 +50,7 @@
         <div class="menu-overlay" id="menu-overlay"></div>
         <div class="container" id="container">
             <div class="form-container sign-up">
-                <form>
+                <form id="signup-form">
                     <h1>Crear Cuenta</h1>
                     <div class="social-icons">
                         <a href="#" class="icon"><img src="../img/assets/login/google.svg" class="img"></a>
@@ -57,14 +58,14 @@
                         <a href="#" class="icon"><img src="../img/assets/login/instagram.svg" class="img"></a>
                     </div>
                     <span> o usa tu email para registrarte</span>
-                    <input type="text" placeholder="Name">
-                    <input type="email" placeholder="Email">
-                    <input type="password" placeholder="Password">
-                    <button>Registrarse</button>
+                    <input type="text" name="nombre" id="signup-name" placeholder="Name" required>
+                    <input type="email" name="email" id="signup-email" placeholder="Email" required>
+                    <input type="password" name="password" id="signup-password" placeholder="Password" minlength="6" required>
+                    <button type="submit">Registrarse</button>
                 </form>
             </div>
             <div class="form-container sign-in">
-                <form>
+                <form id="login-form">
                     <h1>Iniciar Sesion</h1>
                     <div class="social-icons">
                         <a href="#" class="icon"><img src="../img/assets/login/google.svg" class="img"></a>
@@ -72,10 +73,10 @@
                         <a href="#" class="icon"><img src="../img/assets/login/instagram.svg" class="img"></a>
                     </div>
                     <span> o usa tu email y contraseña</span>
-                    <input type="email" placeholder="Email">
-                    <input type="password" placeholder="Password">
+                    <input type="email" name="email" id="login-email" placeholder="Email" required>
+                    <input type="password" name="password" id="login-password" placeholder="Password" required>
                     <a href="#">¿Olvidaste tu contraseña?</a>
-                    <button>Acceder</button>
+                    <button type="submit">Acceder</button>
                 </form>
             </div>
             <div class="toggle-container">
@@ -93,5 +94,6 @@
                 </div>
             </div>
         </div>
+        <script src="../js/auth.js"></script>
         <script src="../js/login.js"></script>
     </body>
