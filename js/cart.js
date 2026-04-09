@@ -1,4 +1,6 @@
 // Cargar carrito desde localStorage
+const API_BASE_URL = 'http://127.0.0.1:5000/api';
+
 function getCart() {
     const cart = localStorage.getItem('carrito');
     return cart ? JSON.parse(cart) : [];
@@ -36,7 +38,7 @@ function renderCart() {
             <td>
                 <div class="quantity-control">
                     <button class="qty-btn" data-index="${index}" data-action="decrease">-</button>
-                    <input type="number" class="qty-input" value="${item.cantidad}" data-index="${index}" min="1">
+                    <input type="number" class="qty-input" value="${item.cantidad}" data-index="${index}" data-product-id="${item.id}" min="1">
                     <button class="qty-btn" data-index="${index}" data-action="increase">+</button>
                 </div>
             </td>
@@ -105,29 +107,119 @@ function removeFromCart(index) {
 
 function calculateTotals() {
     const cart = getCart();
-    let subtotal = 0;
+    const total = getCartTotal(cart); // Sin costos de envío
 
-    cart.forEach(item => {
-        subtotal += item.precio * item.cantidad;
-    });
-
-    const total = subtotal; // Sin costos de envío
-
-    document.getElementById('subtotal').textContent = subtotal.toFixed(2) + '€';
+    document.getElementById('subtotal').textContent = total.toFixed(2) + '€';
     document.getElementById('total').textContent = total.toFixed(2) + '€';
 }
 
+function getCartTotal(cart) {
+    return cart.reduce((sum, item) => sum + (Number(item.precio) * Number(item.cantidad)), 0);
+}
+
+function syncCartQuantitiesFromDOM() {
+    const cart = getCart();
+    const inputs = document.querySelectorAll('.qty-input');
+
+    inputs.forEach(input => {
+        const productId = input.getAttribute('data-product-id');
+        const quantity = parseInt(input.value, 10);
+
+        if (!productId || !Number.isFinite(quantity) || quantity <= 0) {
+            return;
+        }
+
+        const cartItem = cart.find(item => item.id === productId);
+        if (cartItem) {
+            cartItem.cantidad = quantity;
+        }
+    });
+
+    saveCart(cart);
+    return cart;
+}
+
 // Checkout
-document.querySelector('.btn-checkout').addEventListener('click', function() {
+document.querySelector('.btn-checkout').addEventListener('click', async function() {
     const cart = getCart();
     if (cart.length === 0) {
         alert('El carrito está vacío');
         return;
     }
-    
-    alert('¡Pago realizado! Gracias por tu compra.');
-    saveCart([]);
-    renderCart();
+
+    const userRaw = localStorage.getItem('gea_user');
+    if (!userRaw) {
+        alert('Debes iniciar sesion para finalizar la compra');
+        window.location.href = 'login.html';
+        return;
+    }
+
+    let user;
+    try {
+        user = JSON.parse(userRaw);
+    } catch (error) {
+        alert('Sesion invalida. Vuelve a iniciar sesion.');
+        localStorage.removeItem('gea_user');
+        window.location.href = 'login.html';
+        return;
+    }
+
+    const idUser = Number(user.id_user ?? user.id);
+    if (!Number.isFinite(idUser) || idUser <= 0) {
+        alert('Sesion invalida. Vuelve a iniciar sesion.');
+        localStorage.removeItem('gea_user');
+        window.location.href = 'login.html';
+        return;
+    }
+
+    try {
+        const syncedCart = syncCartQuantitiesFromDOM();
+        const lineas = syncedCart
+            .map(item => ({
+                id_prod: Number(item.id),
+                cant: Number(item.cantidad),
+                precio_unitario: Number(item.precio),
+            }))
+            .filter(
+                linea =>
+                    Number.isFinite(linea.id_prod) &&
+                    linea.id_prod > 0 &&
+                    Number.isFinite(linea.cant) &&
+                    linea.cant > 0 &&
+                    Number.isFinite(linea.precio_unitario) &&
+                    linea.precio_unitario > 0
+            );
+
+        if (lineas.length === 0) {
+            alert('No hay lineas validas en el carrito');
+            return;
+        }
+
+        const totalPedido = Number(getCartTotal(syncedCart).toFixed(2));
+
+        const response = await fetch(`${API_BASE_URL}/checkout`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id_user: idUser,
+                lineas: lineas,
+                total_pedido: totalPedido
+            })
+        });
+
+        const result = await response.json();
+        if (!response.ok || !result.ok) {
+            throw new Error(result.message || 'No se pudo guardar el pedido');
+        }
+
+        alert(`Pedido #${result.id_pedido} guardado. Total: ${result.total}€`);
+        saveCart([]);
+        renderCart();
+    } catch (error) {
+        alert(error.message);
+    }
 });
 
 document.addEventListener('DOMContentLoaded', renderCart);

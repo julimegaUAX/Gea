@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 
-from db import create_user, get_user_by_email, get_user_by_username, init_db
+from database import create_purchase, create_user, get_user_by_email, get_user_by_username, init_db
 
 app = Flask(__name__)
 
@@ -74,7 +74,8 @@ def login():
             "ok": True,
             "message": "Inicio de sesion exitoso",
             "user": {
-                "id": user["id"],
+                "id": user["id_user"],
+                "id_user": user["id_user"],
                 "nombre": user["username"],
                 "email": user["email"],
             },
@@ -82,6 +83,70 @@ def login():
     )
 
 
+@app.route("/api/checkout", methods=["POST", "OPTIONS"])
+def checkout():
+    if request.method == "OPTIONS":
+        return ("", 204)
+
+    data = request.get_json(silent=True) or {}
+    id_user = data.get("id_user")
+    lineas = data.get("lineas") or []
+    total_pedido = data.get("total_pedido")
+
+    if not id_user:
+        return jsonify({"ok": False, "message": "Falta id_user"}), 400
+
+    if not isinstance(lineas, list) or len(lineas) == 0:
+        return jsonify({"ok": False, "message": "El carrito esta vacio"}), 400
+
+    normalized_lineas = []
+    for linea in lineas:
+        id_prod = linea.get("id_prod")
+        cantidad = int(linea.get("cant") or 0)
+        precio_unitario = float(linea.get("precio_unitario") or 0)
+
+        if not id_prod or cantidad <= 0:
+            continue
+
+        normalized_lineas.append(
+            {
+                "id_prod": int(id_prod),
+                "cant": cantidad,
+                "precio_unitario": precio_unitario,
+            }
+        )
+
+    if len(normalized_lineas) == 0:
+        return jsonify({"ok": False, "message": "No hay lineas validas para comprar"}), 400
+
+    try:
+        print("CHECKOUT RECEIVED LINES:", len(normalized_lineas), normalized_lineas)
+        total_pedido = round(float(total_pedido), 2)
+    except (TypeError, ValueError):
+        total_pedido = None
+
+    try:
+        compra = create_purchase(
+            id_user=int(id_user),
+            lineas=normalized_lineas,
+            total_pedido=total_pedido,
+        )
+    except ValueError as error:
+        return jsonify({"ok": False, "message": str(error)}), 400
+    except Exception:
+        return jsonify({"ok": False, "message": "No se pudo guardar el pedido"}), 500
+
+    return jsonify(
+        {
+            "ok": True,
+            "message": "Pedido guardado correctamente",
+            "id_compra": compra["id_compra"],
+            "id_pedido": compra["id_compra"],
+            "total": compra["precio_total"],
+        }
+    )
+
+
 if __name__ == "__main__":
     init_db()
-    app.run(debug=True)
+    app.run(debug=False)
