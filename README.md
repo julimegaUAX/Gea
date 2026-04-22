@@ -15,6 +15,30 @@ El proyecto está organizado en carpetas claramente diferenciadas:
 - **`js/`**: Archivo JavaScript correspondiente a cada página con su lógica de interacción
 - **`img/`**: Recursos visuales organizados por categorías de semillas (herb, veg, leg, cer, flo, fru), iconos de propiedades, y assets generales
 - **`data/`**: Archivos JSON con información de productos (semillas.json) y usuarios
+- **`Database_y_API/`**: Backend en Flask + PostgreSQL con endpoints REST (`/GEA/signup`, `/GEA/login`, `/GEA/semillas`, `/GEA/checkout`)
+
+## Arranque del Backend
+
+Tras renombrar la carpeta de backend a `Database_y_API`, arranca la API con uno de estos comandos desde la raíz del proyecto:
+
+```bash
+python Database_y_API/server.py
+```
+
+o como módulo:
+
+```bash
+python -m Database_y_API.server
+```
+
+La API escucha por defecto en `http://127.0.0.1:5001` para evitar conflictos con otros proyectos locales. El frontend ya apunta a esa URL.
+
+Roles y stock:
+
+- El primer usuario registrado pasa a ser `admin`.
+- El resto de usuarios se registran como `user`.
+- Los productos incluyen el campo `stock` (`true` disponible, `false` sin existencias).
+- Solo un usuario con rol `admin` puede cambiar stock mediante `PATCH /GEA/admin/productos/{id_prod}/stock` enviando `id_user` y `stock` en JSON.
 
 ## Responsive Design
 

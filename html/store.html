@@ -4,8 +4,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Gea | Store</title>
-        <link rel="stylesheet" href="../css/store.css">
-        <link rel="stylesheet" href="../css/auth.css">
+        <link rel="stylesheet" href="../css/store.css?v=12">
+        <link rel="stylesheet" href="../css/auth.css?v=8">
         <link rel="icon" href="../img/assets/gea_favicon.svg" type="image/svg">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,6 +53,170 @@
             <div id="propiedades-container">
             </div>
         </div>
+        <section class="filtros-store" id="filtros-store">
+            <div class="filtros-header">
+                <h2>Filtrar semillas</h2>
+                <div class="filtros-header-actions">
+                    <p id="filter-results-count" class="filter-results-count">Mostrando 0 resultados</p>
+                    <button id="filter-apply" class="filter-apply-btn" type="button">Aplicar filtros</button>
+                    <button id="filter-reset" class="filter-reset-btn" type="button">Limpiar filtros</button>
+                </div>
+            </div>
+            <div class="filtros-grid">
+                <label class="filter-field filter-field-search">
+                    <span>Buscar por nombre</span>
+                    <input id="filter-search" type="search" placeholder="Ej: Menta, Albahaca, Tomate..." aria-label="Buscar por nombre de semilla">
+                </label>
+                <label class="filter-field">
+                    <span>Tipo</span>
+                    <select id="filter-tipo" aria-label="Filtrar por tipo de planta"></select>
+                </label>
+                <label class="filter-field">
+                    <span>Luz</span>
+                    <select id="filter-luz" aria-label="Filtrar por necesidad de luz"></select>
+                </label>
+                <label class="filter-field">
+                    <span>Riego</span>
+                    <select id="filter-riego" aria-label="Filtrar por riego"></select>
+                </label>
+                <label class="filter-field">
+                    <span>Resistencia frio</span>
+                    <select id="filter-resistencia" aria-label="Filtrar por resistencia al frio"></select>
+                </label>
+                <label class="filter-field">
+                    <span>Estacion siembra</span>
+                    <select id="filter-estacion" aria-label="Filtrar por estacion de siembra"></select>
+                </label>
+                <label class="filter-field">
+                    <span>Dificultad</span>
+                    <select id="filter-dificultad" aria-label="Filtrar por dificultad"></select>
+                </label>
+                <label class="filter-field">
+                    <span>Cuidados</span>
+                    <select id="filter-cuidados" aria-label="Filtrar por cuidados"></select>
+                </label>
+                <label class="filter-field">
+                    <span>Produccion</span>
+                    <select id="filter-produccion" aria-label="Filtrar por produccion"></select>
+                </label>
+                <label class="filter-field">
+                    <span>Invernadero</span>
+                    <select id="filter-invernadero" aria-label="Filtrar por invernadero"></select>
+                </label>
+                <label class="filter-field">
+                    <span>Tiempo cosecha</span>
+                    <select id="filter-tiempo" aria-label="Filtrar por tiempo de cosecha"></select>
+                </label>
+                <label class="filter-field">
+                    <span>Precio minimo</span>
+                    <input id="filter-precio-min" type="number" step="0.01" min="0" placeholder="0.00" aria-label="Precio minimo">
+                </label>
+                <label class="filter-field">
+                    <span>Precio maximo</span>
+                    <input id="filter-precio-max" type="number" step="0.01" min="0" placeholder="999.00" aria-label="Precio maximo">
+                </label>
+                <label class="filter-field">
+                    <span>Ordenar por</span>
+                    <select id="filter-sort" aria-label="Ordenar resultados"></select>
+                </label>
+            </div>
+            <div id="filter-active-chips" class="filter-active-chips"></div>
+            <p id="filters-empty-state" class="filters-empty-state is-hidden">No hay semillas que cumplan los filtros seleccionados.</p>
+        </section>
+        <section id="admin-seed-actions" class="admin-seed-actions is-hidden" aria-label="Acciones de administrador">
+            <div class="admin-seed-actions-header">
+                <h3>Panel de administracion de semillas</h3>
+            </div>
+            <div class="admin-seed-actions-grid">
+                <form id="admin-create-seed-form" class="admin-seed-form">
+                    <h4>Crear nueva semilla</h4>
+                    <input id="admin-seed-nombre" type="text" placeholder="Nombre" required>
+                    <input id="admin-seed-precio" type="number" min="0" step="0.01" placeholder="Precio" required>
+                    <select id="admin-seed-tipo" required>
+                        <option value="">Tipo de planta</option>
+                        <option value="herb">Hierbas aromaticas</option>
+                        <option value="veg">Vegetales</option>
+                        <option value="leg">Legumbres</option>
+                        <option value="cer">Cereales</option>
+                        <option value="flo">Flores</option>
+                        <option value="fru">Frutas</option>
+                    </select>
+                    <select id="admin-seed-luz" required>
+                        <option value="">Luz</option>
+                        <option value="sol">Sol</option>
+                        <option value="semisombra">Semisombra</option>
+                        <option value="sombra">Sombra</option>
+                    </select>
+                    <select id="admin-seed-riego" required>
+                        <option value="">Riego</option>
+                        <option value="bajo">Bajo</option>
+                        <option value="medio">Medio</option>
+                        <option value="alto">Alto</option>
+                    </select>
+                    <select id="admin-seed-resistencia" required>
+                        <option value="">Resistencia frio</option>
+                        <option value="baja">Baja</option>
+                        <option value="media">Media</option>
+                        <option value="alta">Alta</option>
+                    </select>
+                    <select id="admin-seed-estacion" required>
+                        <option value="">Estacion siembra</option>
+                        <option value="primavera">Primavera</option>
+                        <option value="verano">Verano</option>
+                        <option value="otoño">Otono</option>
+                        <option value="invierno">Invierno</option>
+                    </select>
+                    <input id="admin-seed-tiempo" type="text" placeholder="Tiempo cosecha (ej: 60 dias)" required>
+                    <select id="admin-seed-dificultad" required>
+                        <option value="">Dificultad</option>
+                        <option value="facil">Facil</option>
+                        <option value="intermedio">Intermedio</option>
+                        <option value="avanzado">Avanzado</option>
+                    </select>
+                    <select id="admin-seed-cuidados" required>
+                        <option value="">Cuidados</option>
+                        <option value="bajo">Bajo</option>
+                        <option value="medio">Medio</option>
+                        <option value="alto">Alto</option>
+                    </select>
+                    <select id="admin-seed-produccion" required>
+                        <option value="">Produccion</option>
+                        <option value="baja">Baja</option>
+                        <option value="media">Media</option>
+                        <option value="alta">Alta</option>
+                    </select>
+                    <select id="admin-seed-invernadero" required>
+                        <option value="">Invernadero</option>
+                        <option value="si">Si</option>
+                        <option value="no">No</option>
+                    </select>
+                    <select id="admin-seed-stock" required>
+                        <option value="">Stock</option>
+                        <option value="true">Disponible</option>
+                        <option value="false">Sin stock</option>
+                    </select>
+                    <button type="submit" class="admin-seed-create-btn">Crear semilla</button>
+                </form>
+                <form id="admin-delete-seed-form" class="admin-seed-form admin-seed-delete-form">
+                    <h4>Eliminar semilla por nombre</h4>
+                    <input id="admin-delete-seed-name" type="text" list="admin-delete-seed-names" placeholder="Nombre de semilla" required>
+                    <datalist id="admin-delete-seed-names"></datalist>
+                    <button type="submit" class="admin-seed-delete-btn">Eliminar semilla</button>
+                </form>
+                <form id="admin-update-price-form" class="admin-seed-form admin-seed-price-form">
+                    <h4>Subir o bajar precio</h4>
+                    <input id="admin-price-product-name" type="text" list="admin-price-product-names" placeholder="Nombre del producto" required>
+                    <datalist id="admin-price-product-names"></datalist>
+                    <select id="admin-price-action" required>
+                        <option value="">Accion</option>
+                        <option value="subir">Subir precio</option>
+                        <option value="bajar">Bajar precio</option>
+                    </select>
+                    <input id="admin-price-amount" type="number" min="0.01" step="0.01" placeholder="Monto (€)" required>
+                    <button type="submit" class="admin-seed-price-btn">Aplicar cambio de precio</button>
+                </form>
+            </div>
+        </section>
         <div class="store-container">
             <div class="store-name">
                 <h2>Lista de Hierbas Aromáticas</h2>
@@ -150,7 +314,7 @@
             </div>
         </div>
     </footer>
-    <script src="../js/auth.js?v=6"></script>
-    <script src="../js/store.js?v=6"></script>
+    <script src="../js/auth.js?v=8"></script>
+    <script src="../js/store.js?v=12"></script>
     </body>
 </html>

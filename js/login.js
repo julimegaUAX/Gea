@@ -13,7 +13,10 @@ loginBtn.addEventListener('click', () => {
 
 const signupForm = document.getElementById('signup-form');
 const loginForm = document.getElementById('login-form');
-const API_BASE_URL = 'http://127.0.0.1:5000/api';
+const forgotPasswordLink = document.getElementById('forgot-password-link');
+const resetPasswordPanel = document.getElementById('reset-password-panel');
+const resetPasswordBtn = document.getElementById('reset-password-btn');
+const API_BASE_URL = 'http://127.0.0.1:5001/GEA';
 
 async function postJson(url, body) {
     const response = await fetch(url, {
@@ -60,6 +63,42 @@ loginForm.addEventListener('submit', async (event) => {
         localStorage.setItem('gea_user', JSON.stringify(result.user));
         alert(result.message);
         window.location.href = '../index.html';
+    } catch (error) {
+        alert(error.message);
+    }
+});
+
+forgotPasswordLink?.addEventListener('click', function (event) {
+    event.preventDefault();
+    resetPasswordPanel?.classList.toggle('active');
+});
+
+resetPasswordBtn?.addEventListener('click', async function () {
+    const email = document.getElementById('reset-email').value.trim();
+    const password = document.getElementById('reset-password').value;
+    const passwordConfirm = document.getElementById('reset-password-confirm').value;
+
+    if (!email || !password || !passwordConfirm) {
+        alert('Completa todos los campos para restablecer la contraseña');
+        return;
+    }
+
+    if (password.length < 6) {
+        alert('La nueva contraseña debe tener al menos 6 caracteres');
+        return;
+    }
+
+    if (password !== passwordConfirm) {
+        alert('Las contraseñas no coinciden');
+        return;
+    }
+
+    try {
+        const result = await postJson(`${API_BASE_URL}/reset-password`, { email, password });
+        alert(result.message);
+        document.getElementById('reset-password').value = '';
+        document.getElementById('reset-password-confirm').value = '';
+        resetPasswordPanel.classList.remove('active');
     } catch (error) {
         alert(error.message);
     }

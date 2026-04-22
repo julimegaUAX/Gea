@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gea | Carrito</title>
-    <link rel="stylesheet" href="../css/cart.css">
-    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="stylesheet" href="../css/cart.css?v=2">
+    <link rel="stylesheet" href="../css/auth.css?v=2">
     <link rel="icon" href="../img/assets/gea_favicon.svg" type="image/svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -71,6 +71,12 @@
             <div id="empty-cart" class="empty-cart" style="display: none;">
                 <p>Tu carrito está vacío</p>
                 <a href="store.html" class="btn">Volver a la Tienda</a>
+                <button id="btn-history" class="btn btn-history" type="button">Ver tus compras anteriores</button>
+            </div>
+
+            <div id="purchase-history" class="purchase-history" style="display: none;">
+                <h3>Tus compras anteriores</h3>
+                <div id="purchase-history-content"></div>
             </div>
 
             <div class="cart-summary">
@@ -98,7 +104,7 @@
         </div>
     </footer>
 
-    <script src="../js/auth.js?v=6"></script>
-    <script src="../js/cart.js?v=6"></script>
+    <script src="../js/auth.js?v=7"></script>
+    <script src="../js/cart.js?v=8"></script>
 </body>
 </html>

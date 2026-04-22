@@ -1,0 +1,18 @@
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+
+# Local virtual environments
+.venv/
+venv/
+
+# Local environment files
+.env
+
+# Local databases and temp artifacts
+*.db
+*.sqlite3
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
