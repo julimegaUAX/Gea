@@ -1,6 +1,10 @@
 // Cargar carrito desde localStorage
 const API_BASE_URL = 'http://127.0.0.1:5001/GEA';
 
+function redirectToLogin() {
+    window.location.href = 'login.html?next=cart';
+}
+
 function getCart() {
     const cart = localStorage.getItem('carrito');
     return cart ? JSON.parse(cart) : [];
@@ -148,7 +152,7 @@ async function loadPurchaseHistory() {
     const idUser = getLoggedUserId();
     if (!idUser) {
         alert('Debes iniciar sesion para ver tus compras anteriores');
-        window.location.href = 'login.html';
+        redirectToLogin();
         return;
     }
 
@@ -323,7 +327,7 @@ function bindCheckoutButton() {
         const userRaw = localStorage.getItem('gea_user');
         if (!userRaw) {
             alert('Debes iniciar sesion para finalizar la compra');
-            window.location.href = 'login.html';
+            redirectToLogin();
             return;
         }
 
@@ -333,7 +337,7 @@ function bindCheckoutButton() {
         } catch (error) {
             alert('Sesion invalida. Vuelve a iniciar sesion.');
             localStorage.removeItem('gea_user');
-            window.location.href = 'login.html';
+            redirectToLogin();
             return;
         }
 
@@ -341,7 +345,7 @@ function bindCheckoutButton() {
         if (!Number.isFinite(idUser) || idUser <= 0) {
             alert('Sesion invalida. Vuelve a iniciar sesion.');
             localStorage.removeItem('gea_user');
-            window.location.href = 'login.html';
+            redirectToLogin();
             return;
         }
 
@@ -456,7 +460,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const currentUserId = getLoggedUserId();
             if (!currentUserId) {
                 alert('Debes iniciar sesion para repetir una compra');
-                window.location.href = 'login.html';
+                redirectToLogin();
                 return;
             }
 

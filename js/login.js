@@ -35,6 +35,43 @@ async function postJson(url, body) {
     return data;
 }
 
+function hasCartItems() {
+    const cartKeys = ['carrito', 'cart', 'gea_cart'];
+
+    for (const key of cartKeys) {
+        const cartRaw = localStorage.getItem(key);
+        if (!cartRaw) {
+            continue;
+        }
+
+        try {
+            const parsed = JSON.parse(cartRaw);
+
+            if (Array.isArray(parsed) && parsed.length > 0) {
+                return true;
+            }
+
+            if (parsed && typeof parsed === 'object') {
+                const items = parsed.items;
+                if (Array.isArray(items) && items.length > 0) {
+                    return true;
+                }
+
+                if (Object.keys(parsed).length > 0) {
+                    return true;
+                }
+            }
+        } catch (error) {
+            const normalized = String(cartRaw).trim().toLowerCase();
+            if (normalized && normalized !== '[]' && normalized !== '{}' && normalized !== 'null') {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 signupForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
@@ -44,9 +81,25 @@ signupForm.addEventListener('submit', async (event) => {
 
     try {
         const result = await postJson(`${API_BASE_URL}/signup`, { nombre, email, password });
+        localStorage.setItem('gea_user', JSON.stringify(result.user));
         alert(result.message);
         signupForm.reset();
-        container.classList.remove('active');
+
+        const inHtmlFolder = window.location.pathname.includes('/html/');
+        const nextParam = new URLSearchParams(window.location.search).get('next');
+        const hasItemsInCart = hasCartItems();
+
+        if (nextParam === 'cart') {
+            window.location.replace(inHtmlFolder ? 'cart.html' : 'html/cart.html');
+            return;
+        }
+
+        if (hasItemsInCart) {
+            window.location.replace(inHtmlFolder ? 'cart.html' : 'html/cart.html');
+            return;
+        }
+
+        window.location.replace(inHtmlFolder ? '../index.html' : 'index.html');
     } catch (error) {
         alert(error.message);
     }
@@ -62,7 +115,22 @@ loginForm.addEventListener('submit', async (event) => {
         const result = await postJson(`${API_BASE_URL}/login`, { email, password });
         localStorage.setItem('gea_user', JSON.stringify(result.user));
         alert(result.message);
-        window.location.href = '../index.html';
+
+        const inHtmlFolder = window.location.pathname.includes('/html/');
+        const nextParam = new URLSearchParams(window.location.search).get('next');
+        const hasItemsInCart = hasCartItems();
+
+        if (nextParam === 'cart') {
+            window.location.replace(inHtmlFolder ? 'cart.html' : 'html/cart.html');
+            return;
+        }
+
+        if (hasItemsInCart) {
+            window.location.replace(inHtmlFolder ? 'cart.html' : 'html/cart.html');
+            return;
+        }
+
+        window.location.replace(inHtmlFolder ? '../index.html' : 'index.html');
     } catch (error) {
         alert(error.message);
     }

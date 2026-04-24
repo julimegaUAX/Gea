@@ -14,8 +14,7 @@ El proyecto está organizado en carpetas claramente diferenciadas:
 - **`css/`**: Hoja de estilos específica para cada página HTML
 - **`js/`**: Archivo JavaScript correspondiente a cada página con su lógica de interacción
 - **`img/`**: Recursos visuales organizados por categorías de semillas (herb, veg, leg, cer, flo, fru), iconos de propiedades, y assets generales
-- **`data/`**: Archivos JSON con información de productos (semillas.json) y usuarios
-- **`Database_y_API/`**: Backend en Flask + PostgreSQL con endpoints REST (`/GEA/signup`, `/GEA/login`, `/GEA/semillas`, `/GEA/checkout`)
+- **`Database_y_API/`**: Backend en Flask + PostgreSQL con endpoints REST (`/GEA/signup`, `/GEA/login`, `/GEA/semillas`, `/GEA/checkout`, etc...)
 
 ## Arranque del Backend
 
