@@ -2,6 +2,33 @@
     position: relative;
 }
 
+.menu .cart-link {
+    position: relative;
+    display: inline-flex;
+}
+
+.menu .cart-count-badge {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: #dc2626;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ffffff;
+    pointer-events: none;
+    box-sizing: border-box;
+    z-index: 5;
+}
+
 .user-menu-dropdown {
     position: absolute;
     top: calc(100% + 10px);
