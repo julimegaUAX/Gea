@@ -98,6 +98,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    window.__geaSyncCartBadge = syncCartBadge;
+    window.addEventListener('gea-cart-updated', syncCartBadge);
+
     syncCartBadge();
 
     window.addEventListener('storage', function (event) {
