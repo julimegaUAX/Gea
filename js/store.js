@@ -434,6 +434,7 @@ async function cargarSemillas() {
         buildFilterOptions(semillasCatalogo);
         updateAdminPriceProductNameOptions(semillasCatalogo);
         renderSemillas(semillasCatalogo);
+        updateCartFooter();
     } catch (error) {
         console.warn('API no disponible, usando data/semillas.json como respaldo.', error);
 
@@ -444,6 +445,7 @@ async function cargarSemillas() {
             buildFilterOptions(semillasCatalogo);
             updateAdminPriceProductNameOptions(semillasCatalogo);
             renderSemillas(semillasCatalogo);
+            updateCartFooter();
         } catch (fallbackError) {
             console.error('Error al cargar semillas desde respaldo local:', fallbackError);
             semillasCatalogo = [];
@@ -886,9 +888,35 @@ function saveCart(cart) {
     localStorage.setItem('carrito', JSON.stringify(cart));
 }
 
+function isSameProductId(leftId, rightId) {
+    const left = Number(leftId);
+    const right = Number(rightId);
+
+    if (Number.isFinite(left) && Number.isFinite(right)) {
+        return left === right;
+    }
+
+    return String(leftId) === String(rightId);
+}
+
+function getCartCategoryKey(item) {
+    const directType = String(item?.tipo_planta ?? item?.tipo ?? '').trim().toLowerCase();
+    if (Object.prototype.hasOwnProperty.call(categoryContainers, directType)) {
+        return directType;
+    }
+
+    const matchedSeed = semillasCatalogo.find(seed => isSameProductId(seed?.id, item?.id));
+    const derivedType = String(matchedSeed?.tipo_planta || '').trim().toLowerCase();
+    if (Object.prototype.hasOwnProperty.call(categoryContainers, derivedType)) {
+        return derivedType;
+    }
+
+    return '';
+}
+
 function addToCart(product) {
     let cart = getCart();
-    const existingItem = cart.find(item => item.id === product.id);
+    const existingItem = cart.find(item => isSameProductId(item.id, product.id));
 
     if (existingItem) {
         existingItem.cantidad++;
@@ -910,7 +938,7 @@ function addToCart(product) {
 
 function incrementQuantity(productId) {
     let cart = getCart();
-    const existingItem = cart.find(item => item.id === productId);
+    const existingItem = cart.find(item => isSameProductId(item.id, productId));
 
     if (existingItem) {
         existingItem.cantidad++;
@@ -923,12 +951,12 @@ function incrementQuantity(productId) {
 
 function removeFromCart(productId) {
     let cart = getCart();
-    const existingItem = cart.find(item => item.id === productId);
+    const existingItem = cart.find(item => isSameProductId(item.id, productId));
 
     if (existingItem) {
         existingItem.cantidad--;
         if (existingItem.cantidad <= 0) {
-            cart = cart.filter(item => item.id !== productId);
+            cart = cart.filter(item => !isSameProductId(item.id, productId));
         }
     }
 
@@ -955,7 +983,7 @@ function updateProductUI() {
 
         const productId = addBtn.getAttribute('data-id');
 
-        const cartItem = cart.find(item => item.id === productId);
+        const cartItem = cart.find(item => isSameProductId(item.id, productId));
 
         if (cartItem && cartItem.cantidad > 0) {
             addBtn.style.display = 'none';
@@ -1000,13 +1028,30 @@ function updateCartFooter() {
     };
 
     let totalPrice = 0;
+    let cartWasEnriched = false;
 
     cart.forEach(item => {
-        if (item.tipo_planta && categoryCounts.hasOwnProperty(item.tipo_planta)) {
-            categoryCounts[item.tipo_planta] += item.cantidad;
+        const categoryKey = getCartCategoryKey(item);
+        const quantity = Number(item?.cantidad);
+        const price = Number(item?.precio);
+
+        if (categoryKey && Number.isFinite(quantity) && quantity > 0) {
+            categoryCounts[categoryKey] += quantity;
+
+            if (!item.tipo_planta || item.tipo_planta !== categoryKey) {
+                item.tipo_planta = categoryKey;
+                cartWasEnriched = true;
+            }
         }
-        totalPrice += item.precio * item.cantidad;
+
+        if (Number.isFinite(price) && Number.isFinite(quantity) && quantity > 0) {
+            totalPrice += price * quantity;
+        }
     });
+
+    if (cartWasEnriched) {
+        saveCart(cart);
+    }
 
     Object.keys(categoryCounts).forEach(category => {
         const categoryEl = document.querySelector(`.category-count[data-category="${category}"]`);

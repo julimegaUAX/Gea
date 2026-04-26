@@ -929,6 +929,7 @@ def get_purchases_by_user(id_user: int):
             SELECT
                 cl.id_prod,
                 p.nombre,
+                p.tipo_planta,
                 cl.cant,
                 cl.precio
             FROM compras_lineas cl
@@ -946,6 +947,7 @@ def get_purchases_by_user(id_user: int):
                 {
                     "id_prod": int(row["id_prod"]),
                     "nombre": row["nombre"],
+                    "tipo_planta": row["tipo_planta"],
                     "cant": int(row["cant"]),
                     "subtotal": round(float(row["precio"]), 2),
                 }

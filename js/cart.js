@@ -184,15 +184,17 @@ function repeatPurchase(compra) {
             const quantity = Number(linea.cant);
             const subtotal = Number(linea.subtotal);
             const unitPrice = quantity > 0 ? subtotal / quantity : 0;
+            const tipoPlanta = String(linea.tipo_planta || '').trim();
 
             return {
                 id: String(linea.id_prod),
                 nombre: linea.nombre,
                 precio: Number(unitPrice.toFixed(2)),
                 cantidad: quantity,
+                tipo_planta: tipoPlanta || undefined,
             };
         })
-        .filter(item => Number.isFinite(Number(item.id)) && item.cantidad > 0 && item.precio > 0);
+        .filter(item => Number.isFinite(Number(item.id)) && Number.isFinite(item.cantidad) && item.cantidad > 0 && Number.isFinite(item.precio) && item.precio > 0);
 
     if (cart.length === 0) {
         alert('No se pudieron reconstruir los productos de esta compra');
