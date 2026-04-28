@@ -467,7 +467,7 @@ function buildProductCard(semilla) {
     const nombreImagen = normalizeText(semilla.nombre).replace(/\s+/g, '_');
 
     productDiv.innerHTML = `
-        ${sinStock ? '<div class="stock-cross" aria-hidden="true"></div><div class="stock-label">Sin existencias</div>' : ''}
+        ${sinStock ? '<div class="stock-label">Sin existencias</div>' : ''}
         <img src="../img/${semilla.tipo_planta}/${nombreImagen}.png" alt="${semilla.nombre}" class="product-image">
         <p class="product-image-fallback is-hidden">No Hay Imagen Disponible</p>
         <h2 class="product-name">${semilla.nombre}</h2>

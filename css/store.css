@@ -1069,30 +1069,12 @@ body {
 }
 
 .stock-cross {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    pointer-events: none;
+    display: none !important;
 }
 
 .stock-cross::before,
 .stock-cross::after {
-    content: '';
-    position: absolute;
-    left: -12%;
-    top: 48%;
-    width: 124%;
-    height: 6px;
-    background: rgba(179, 27, 27, 0.9);
-    border-radius: 999px;
-}
-
-.stock-cross::before {
-    transform: rotate(33deg);
-}
-
-.stock-cross::after {
-    transform: rotate(-33deg);
+    content: none !important;
 }
 
 .stock-label {
