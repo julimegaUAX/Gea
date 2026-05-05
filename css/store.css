@@ -783,7 +783,7 @@ body {
 
 .admin-seed-create-btn,
 .admin-seed-delete-btn,
-.admin-seed-price-btn {
+.admin-seed-modify-btn {
     border: 1px solid #1f4c20;
     color: #fff;
     background: linear-gradient(180deg, #2f6b31 0%, #245427 100%);
@@ -798,28 +798,22 @@ body {
     box-shadow: 0 4px 12px rgba(143, 32, 32, 0.2);
 }
 
-.admin-seed-price-btn {
-    border-color: #1c4d7b;
-    background: linear-gradient(180deg, #2c5f2d 0%, #7cb342 100%);
-    box-shadow: 0 4px 12px rgba(34, 100, 158, 0.22);
-}
-
 .admin-seed-create-btn:hover,
 .admin-seed-delete-btn:hover,
-.admin-seed-price-btn:hover {
+.admin-seed-modify-btn:hover {
     transform: translateY(-1px);
     filter: brightness(1.04);
 }
 
 .admin-seed-create-btn:active,
 .admin-seed-delete-btn:active,
-.admin-seed-price-btn:active {
+.admin-seed-modify-btn:active {
     transform: translateY(0);
 }
 
 #admin-create-seed-form .admin-seed-create-btn,
 #admin-delete-seed-form .admin-seed-delete-btn,
-#admin-update-price-form .admin-seed-price-btn {
+#admin-update-seed-form .admin-seed-modify-btn {
     grid-column: 1 / -1;
 }
 

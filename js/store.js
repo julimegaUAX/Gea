@@ -324,9 +324,9 @@ function buildFilterOptions(semillas) {
     }
 }
 
-function updateAdminPriceProductNameOptions(semillas) {
+function updateAdminModifySeedNameOptions(semillas) {
     const dataLists = [
-        document.getElementById('admin-price-product-names'),
+        document.getElementById('admin-modify-seed-names'),
         document.getElementById('admin-delete-seed-names')
     ].filter(Boolean);
     if (dataLists.length === 0) return;
@@ -432,7 +432,7 @@ async function cargarSemillas() {
     try {
         semillasCatalogo = await fetchSemillasFromApi();
         buildFilterOptions(semillasCatalogo);
-        updateAdminPriceProductNameOptions(semillasCatalogo);
+        updateAdminModifySeedNameOptions(semillasCatalogo);
         renderSemillas(semillasCatalogo);
         updateCartFooter();
     } catch (error) {
@@ -443,14 +443,14 @@ async function cargarSemillas() {
             const fallbackSemillas = await fallbackResponse.json();
             semillasCatalogo = Array.isArray(fallbackSemillas) ? fallbackSemillas : [];
             buildFilterOptions(semillasCatalogo);
-            updateAdminPriceProductNameOptions(semillasCatalogo);
+            updateAdminModifySeedNameOptions(semillasCatalogo);
             renderSemillas(semillasCatalogo);
             updateCartFooter();
         } catch (fallbackError) {
             console.error('Error al cargar semillas desde respaldo local:', fallbackError);
             semillasCatalogo = [];
             buildFilterOptions([]);
-            updateAdminPriceProductNameOptions([]);
+            updateAdminModifySeedNameOptions([]);
             renderSemillas([]);
         }
     }
@@ -740,7 +740,6 @@ function initAdminSeedActions() {
 
     const createForm = document.getElementById('admin-create-seed-form');
     const deleteForm = document.getElementById('admin-delete-seed-form');
-    const updatePriceForm = document.getElementById('admin-update-price-form');
 
     createForm?.addEventListener('submit', async event => {
         event.preventDefault();
@@ -819,12 +818,31 @@ function initAdminSeedActions() {
         }
     });
 
-    updatePriceForm?.addEventListener('submit', async event => {
+    const updateSeedForm = document.getElementById('admin-update-seed-form');
+    const modifySeedNameInput = document.getElementById('admin-modify-seed-name');
+    const modifySeedPrecioInput = document.getElementById('admin-modify-seed-precio');
+    const modifySeedStockInput = document.getElementById('admin-modify-seed-stock');
+
+    // Cargar precio y stock cuando se selecciona una semilla
+    modifySeedNameInput?.addEventListener('input', () => {
+        const productName = String(modifySeedNameInput.value || '').trim();
+        const productMatch = semillasCatalogo.find(item => normalizeText(item?.nombre) === normalizeText(productName));
+        
+        if (productMatch) {
+            modifySeedPrecioInput.value = productMatch.precio;
+            modifySeedStockInput.value = productMatch.stock ? 'Disponible' : 'Sin stock';
+        } else {
+            modifySeedPrecioInput.value = '';
+            modifySeedStockInput.value = '';
+        }
+    });
+
+    updateSeedForm?.addEventListener('submit', async event => {
         event.preventDefault();
 
-        const productName = String(document.getElementById('admin-price-product-name')?.value || '').trim();
-        const accion = String(document.getElementById('admin-price-action')?.value || '').trim().toLowerCase();
-        const monto = Number(document.getElementById('admin-price-amount')?.value);
+        const productName = String(modifySeedNameInput?.value || '').trim();
+        const precioInput = modifySeedPrecioInput?.value;
+        const stockInput = String(modifySeedStockInput?.value || '').trim();
 
         if (!productName) {
             alert('Introduce un nombre de producto valido');
@@ -838,38 +856,63 @@ function initAdminSeedActions() {
         }
 
         const productId = Number(productMatch.id);
-
         if (!Number.isInteger(productId) || productId <= 0) {
             alert('No se pudo resolver el producto seleccionado');
             return;
         }
 
-        if (accion !== 'subir' && accion !== 'bajar') {
-            alert('Selecciona si quieres subir o bajar el precio');
-            return;
-        }
+        // Verificar si el precio fue modificado (diferente al original)
+        const originalPrice = Number(productMatch.precio);
+        const newPrice = Number(precioInput);
+        const hasPriceUpdate = Number.isFinite(newPrice) && newPrice !== originalPrice;
 
-        if (!Number.isFinite(monto) || monto <= 0) {
-            alert('Introduce un monto valido mayor que 0');
+        // Verificar si el stock fue modificado (diferente al original)
+        const originalStock = productMatch.stock ? 'Disponible' : 'Sin stock';
+        const hasStockUpdate = stockInput !== originalStock && stockInput !== '';
+
+        if (!hasPriceUpdate && !hasStockUpdate) {
+            alert('Debes hacer cambios al precio o stock para aplicar modificaciones');
             return;
         }
 
         try {
-            const result = await updatePriceAsAdmin(productId, accion, Number(monto.toFixed(2)));
+            let updatedProduct = { ...productMatch };
 
-            const updatedId = Number(result?.producto?.id ?? productId);
-            const updatedPrice = Number(result?.producto?.precio);
-            if (Number.isFinite(updatedId) && Number.isFinite(updatedPrice)) {
-                semillasCatalogo = semillasCatalogo.map(item => (
-                    Number(item?.id) === updatedId
-                        ? { ...item, precio: updatedPrice }
-                        : item
-                ));
-                updateAdminPriceProductNameOptions(semillasCatalogo);
+            // Actualizar precio si se modificó
+            if (hasPriceUpdate) {
+                if (!Number.isFinite(newPrice) || newPrice <= 0) {
+                    alert('El precio debe ser un número mayor que 0');
+                    return;
+                }
+                const delta = newPrice - originalPrice;
+                const accion = delta >= 0 ? 'subir' : 'bajar';
+                const monto = Math.abs(delta);
+                
+                const priceResult = await updatePriceAsAdmin(productId, accion, Number(monto.toFixed(2)));
+                updatedProduct = { ...updatedProduct, precio: priceResult.producto.precio };
             }
 
-            alert(`Precio actualizado: ${result.producto.nombre} -> ${result.producto.precio}€`);
-            updatePriceForm.reset();
+            // Actualizar stock si se modificó
+            if (hasStockUpdate) {
+                const stockValue = stockInput.toLowerCase() === 'disponible';
+                const stockResult = await updateStockAsAdmin(productId, stockValue);
+                updatedProduct = { ...updatedProduct, stock: stockResult.producto.stock };
+            }
+
+            // Actualizar el catálogo
+            semillasCatalogo = semillasCatalogo.map(item => (
+                Number(item?.id) === productId ? updatedProduct : item
+            ));
+            updateAdminModifySeedNameOptions(semillasCatalogo);
+
+            let message = `Semilla "${updatedProduct.nombre}" actualizada:`;
+            if (hasPriceUpdate) message += ` Precio -> ${updatedProduct.precio}€`;
+            if (hasStockUpdate) message += ` | Stock -> ${updatedProduct.stock ? 'Disponible' : 'Sin stock'}`;
+            
+            alert(message);
+            updateSeedForm.reset();
+            modifySeedPrecioInput.value = '';
+            modifySeedStockInput.value = '';
             await applyFilters();
             await cargarSemillas();
         } catch (error) {

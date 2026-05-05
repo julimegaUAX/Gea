@@ -203,17 +203,17 @@
                     <datalist id="admin-delete-seed-names"></datalist>
                     <button type="submit" class="admin-seed-delete-btn">Eliminar semilla</button>
                 </form>
-                <form id="admin-update-price-form" class="admin-seed-form admin-seed-price-form">
-                    <h4>Subir o bajar precio</h4>
-                    <input id="admin-price-product-name" type="text" list="admin-price-product-names" placeholder="Nombre del producto" required>
-                    <datalist id="admin-price-product-names"></datalist>
-                    <select id="admin-price-action" required>
-                        <option value="">Accion</option>
-                        <option value="subir">Subir precio</option>
-                        <option value="bajar">Bajar precio</option>
-                    </select>
-                    <input id="admin-price-amount" type="number" min="0.01" step="0.01" placeholder="Monto (€)" required>
-                    <button type="submit" class="admin-seed-price-btn">Aplicar cambio de precio</button>
+                <form id="admin-update-seed-form" class="admin-seed-form admin-seed-modify-form">
+                    <h4>Modificar semilla</h4>
+                    <input id="admin-modify-seed-name" type="text" list="admin-modify-seed-names" placeholder="Nombre del producto" required>
+                    <datalist id="admin-modify-seed-names"></datalist>
+                    <input id="admin-modify-seed-precio" type="number" min="0.01" step="0.01" placeholder="Precio (€)">
+                    <input id="admin-modify-seed-stock" type="text" placeholder="Stock (Disponible/Sin stock)" list="admin-modify-seed-stock-options" required>
+                    <datalist id="admin-modify-seed-stock-options">
+                        <option value="Disponible"></option>
+                        <option value="Sin stock"></option>
+                    </datalist>
+                    <button type="submit" class="admin-seed-modify-btn">Aplicar cambios</button>
                 </form>
             </div>
         </section>
