@@ -1094,9 +1094,10 @@ body {
 }
 
 .product-image-fallback {
-    min-height: 120px;
+    min-height: 300px;
     margin-bottom: 10px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -1106,6 +1107,30 @@ body {
     color: #567056;
     font-weight: 600;
     padding: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.product-image-fallback::before {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background-image: url('../img/assets/gea.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    opacity: 0.5;
+    filter: grayscale(100%) brightness(1.2);
+    z-index: 1;
+    pointer-events: none;
+    bottom: 0;
+}
+
+p.product-image-fallback:not(.is-hidden) {
+    position: relative;
+    z-index: 10;
+    margin: 0;
 }
 
 .product-name {
