@@ -160,7 +160,8 @@ def init_db():
         ADD COLUMN IF NOT EXISTS cuidados VARCHAR(32),
         ADD COLUMN IF NOT EXISTS produccion VARCHAR(32),
         ADD COLUMN IF NOT EXISTS invernadero BOOLEAN NOT NULL DEFAULT FALSE,
-        ADD COLUMN IF NOT EXISTS stock BOOLEAN NOT NULL DEFAULT TRUE
+        ADD COLUMN IF NOT EXISTS stock BOOLEAN NOT NULL DEFAULT TRUE,
+        ADD COLUMN IF NOT EXISTS tiene_imagen BOOLEAN NOT NULL DEFAULT TRUE
         """
     )
 
@@ -438,7 +439,8 @@ def get_seed_catalog(filters=None):
             cuidados,
             produccion,
             invernadero,
-            stock
+            stock,
+            tiene_imagen
         FROM prod
         ORDER BY id_prod ASC
         """
@@ -515,6 +517,68 @@ def get_seed_catalog(filters=None):
         filtered_rows.sort(key=lambda item: float(item.get("precio") or 0), reverse=True)
 
     return filtered_rows
+
+
+def update_product_image_flags():
+    """Actualiza la columna tiene_imagen basándose en archivos existentes"""
+    import os
+    import unicodedata
+    
+    def normalize_filename(name):
+        """Normaliza nombre quitando tildes y caracteres especiales"""
+        # Remover acentos
+        name = unicodedata.normalize('NFD', name)
+        name = ''.join(char for char in name if unicodedata.category(char) != 'Mn')
+        # Convertir a minúsculas y reemplazar espacios/caracteres especiales
+        name = name.lower().replace(" ", "").replace("-", "").replace("_", "")
+        return name
+    
+    try:
+        base_img_path = os.path.join(os.path.dirname(__file__), "..", "img")
+        conn = get_db_connection()
+        cursor = get_db_cursor(conn)
+        
+        # Obtener todos los productos
+        cursor.execute("SELECT id_prod, nombre, tipo_planta FROM prod")
+        products = cursor.fetchall()
+        
+        # Pre-cargar lista de archivos disponibles por categoría
+        available_files = {}
+        categories = ["herb", "veg", "leg", "cer", "flo", "fru"]
+        for category in categories:
+            category_path = os.path.join(base_img_path, category)
+            if os.path.exists(category_path):
+                files = os.listdir(category_path)
+                # Normalizar nombres de archivos para búsqueda
+                available_files[category] = {
+                    normalize_filename(os.path.splitext(f)[0]): f 
+                    for f in files if f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif'))
+                }
+        
+        for product in products:
+            prod_id = product.get("id_prod")
+            nombre = product.get("nombre", "")
+            tipo_planta = product.get("tipo_planta", "")
+            
+            # Normalizar nombre del producto
+            nombre_normalizado = normalize_filename(nombre)
+            
+            # Buscar en archivos disponibles
+            tiene_imagen = False
+            if tipo_planta in available_files:
+                tiene_imagen = nombre_normalizado in available_files[tipo_planta]
+            
+            # Actualizar BD
+            cursor.execute(
+                "UPDATE prod SET tiene_imagen = %s WHERE id_prod = %s",
+                (tiene_imagen, prod_id)
+            )
+        
+        conn.commit()
+        cursor.close()
+        conn.close()
+    except Exception as e:
+        print(f"Error actualizando banderas de imagen: {e}")
 
 
 def get_user_by_email(email: str):

@@ -20,6 +20,7 @@ try:
         update_product_price,
         update_user_password_by_email,
         update_product_stock,
+        update_product_image_flags,
     )
 except ImportError:
     from .database import (
@@ -37,6 +38,7 @@ except ImportError:
         update_product_price,
         update_user_password_by_email,
         update_product_stock,
+        update_product_image_flags,
     )
 
 app = Flask(__name__)
@@ -988,4 +990,5 @@ def admin_delete_seed():
 
 if __name__ == "__main__":
     init_db()
+    update_product_image_flags()  # Actualizar flags de imágenes en la BD
     app.run(host=API_HOST, port=API_PORT, debug=False)

@@ -468,7 +468,7 @@ function buildProductCard(semilla) {
 
     productDiv.innerHTML = `
         ${sinStock ? '<div class="stock-label">Sin existencias</div>' : ''}
-        <img src="../img/${semilla.tipo_planta}/${nombreImagen}.png" alt="${semilla.nombre}" class="product-image">
+        <img data-id="${semilla.id}" data-src="../img/${semilla.tipo_planta}/${nombreImagen}.png" alt="${semilla.nombre}" class="product-image">
         <p class="product-image-fallback is-hidden">No Hay Imagen Disponible</p>
         <h2 class="product-name">${semilla.nombre}</h2>
         <div class="product-properties">
@@ -520,10 +520,19 @@ function bindProductButtons() {
 
         if (!img || !fallback) return;
 
-        img.addEventListener('error', () => {
+        const dataSrc = img.getAttribute('data-src');
+        if (!dataSrc) return;
+
+        const semillaId = parseInt(img.getAttribute('data-id'));
+        const semilla = semillasCatalogo.find(s => s.id === semillaId);
+
+        // Usar el campo tiene_imagen de la API
+        if (semilla && semilla.tiene_imagen) {
+            img.src = dataSrc;
+        } else {
             img.style.display = 'none';
             fallback.classList.remove('is-hidden');
-        }, { once: true });
+        }
     });
 
     document.querySelectorAll('.add-to-cart-btn:not([disabled])').forEach(btn => {
