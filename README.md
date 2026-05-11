@@ -57,6 +57,7 @@ Todas las primary keys y las foreign keys se pueden ver en la imagen anterior, a
 - **PATCH /GEA/admin/productos/{id_prod}/precio**: Actualiza el precio de un producto (solo administrador).
 - **PATCH /GEA/admin/productos/{id_prod}/stock**: Actualiza el stock de un producto (solo administrador).
 
+Además, se implementó HATEOAS en los endpoints de la API para ayudar en la navegación 
 ## Responsive Design
 
 El diseño web se adapta a **4 resoluciones diferentes**:

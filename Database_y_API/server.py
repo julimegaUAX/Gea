@@ -349,7 +349,16 @@ def get_openapi_spec():
 
 @app.route("/openapi.json", methods=["GET"])
 def openapi_json():
-    response = jsonify(get_openapi_spec())
+    payload = get_openapi_spec()
+    payload["_links"] = _api_links(
+        {
+            "self": _link("/openapi.json", "GET"),
+            "root": _link("/root", "GET"),
+            "info": _link("/info", "GET"),
+            "docs": {"href": _site_url("/docs"), "method": "GET"},
+        }
+    )
+    response = jsonify(payload)
     response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
     response.headers["Pragma"] = "no-cache"
     return response
@@ -357,7 +366,19 @@ def openapi_json():
 
 @app.route(f"/{API_PREFIX}/root", methods=["GET"])
 def root():
-    return jsonify({"message": "Bienvenido a la API de Gea"})
+    return jsonify(
+        {
+            "message": "Bienvenido a la API de Gea",
+            "_links": _api_links(
+                {
+                    "self": _link("/root", "GET"),
+                    "info": _link("/info", "GET"),
+                    "semillas": _link("/semillas", "GET"),
+                    "docs": {"href": _site_url("/docs"), "method": "GET"},
+                }
+            ),
+        }
+    )
 
 
 @app.route(f"/{API_PREFIX}/info", methods=["GET"])
@@ -806,6 +827,13 @@ def contacto():
             "ok": True,
             "message": "Contacto guardado correctamente",
             "contacto": contacto_guardado,
+            "_links": _api_links(
+                {
+                    "self": _link("/contacto", "POST"),
+                    "info": _link("/info", "GET"),
+                    "semillas": _link("/semillas", "GET"),
+                }
+            ),
         }
     )
 
