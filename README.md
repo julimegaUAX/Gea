@@ -18,26 +18,44 @@ El proyecto está organizado en carpetas claramente diferenciadas:
 
 ## Arranque del Backend
 
-Tras renombrar la carpeta de backend a `Database_y_API`, arranca la API con uno de estos comandos desde la raíz del proyecto:
+La carpeta de backend es `Database_y_API`, arranca la API con :
 
 ```bash
 python Database_y_API/server.py
 ```
 
-o como módulo:
+La API está en `http://127.0.0.1:5001` para evitar conflictos con otros proyectos locales. El frontend ya apunta a esa URL.
 
-```bash
-python -m Database_y_API.server
-```
+## Modelo de Base de Datos (TABLAS)
 
-La API escucha por defecto en `http://127.0.0.1:5001` para evitar conflictos con otros proyectos locales. El frontend ya apunta a esa URL.
+<div align="center">
+  <img src="img/readme/ER_DATABASE_GEA.png" alt="Diagrama ER Base de Datos" width="500"/>
+</div>
 
-Roles y stock:
+Todas las primary keys y las foreign keys se pueden ver en la imagen anterior, al igual que el tipo de relaciones que existen entre las tablas
 
-- El primer usuario registrado pasa a ser `admin`.
-- El resto de usuarios se registran como `user`.
-- Los productos incluyen el campo `stock` (`true` disponible, `false` sin existencias).
-- Solo un usuario con rol `admin` puede cambiar stock mediante `PATCH /GEA/admin/productos/{id_prod}/stock` enviando `id_user` y `stock` en JSON.
+- **users**: Almacena información de usuarios (email, contraseña, rol) para gestionar acceso y autenticación.
+- **cat**: Contiene las 6 categorías de productos para organizar el catálogo de semillas.
+- **prod**: Tabla principal con todos los productos, sus propiedades de cultivo (luz, riego, dificultad, etc.) y datos comerciales (precio, stock).
+- **compra**: Registra las órdenes de compra realizadas por usuarios con el precio total de cada transacción.
+- **compras_lineas**: Detalla los artículos incluidos en cada compra, vinculando productos con su precio específico en esa orden.
+- **contactos**: Almacena datos de contacto de usuarios (nombre, email, teléfono, mensajes) para la comunicación.
+
+## Peticiones API
+
+- **GET /GEA/root**: Verifica que la API está funcionando.
+- **GET /GEA/info**: Devuelve información general de la página.
+- **GET /GEA/semillas**: Obtiene el catálogo de semillas con filtros opcionales (categoría, dificultad, etc.).
+- **POST /GEA/signup**: Registra un nuevo usuario con email, contraseña y validación.
+- **POST /GEA/login**: Inicia sesión.
+- **POST /GEA/reset-password**: Restablecimiento de contraseña por email.
+- **POST /GEA/checkout**: Guarda una compra en la base de datos con sus artículos, cantidades y precio total
+- **GET /GEA/compras**: Obtiene el historial de compras del usuario autenticado.
+- **POST /GEA/contacto**: Guarda un formulario de contacto con nombre, email, teléfono y mensaje.
+- **POST /GEA/admin/productos**: Crea una nueva semilla (solo administrador).
+- **DELETE /GEA/admin/productos**: Elimina una semilla por nombre (solo administrador).
+- **PATCH /GEA/admin/productos/{id_prod}/precio**: Actualiza el precio de un producto (solo administrador).
+- **PATCH /GEA/admin/productos/{id_prod}/stock**: Actualiza el stock de un producto (solo administrador).
 
 ## Responsive Design
 
