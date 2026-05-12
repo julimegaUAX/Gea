@@ -37,6 +37,48 @@ def conexclose(conn, cursor):
     conn.close()
 
 
+IMAGE_CATEGORIES = {"herb", "veg", "leg", "cer", "flo", "fru"}
+IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".gif"}
+
+
+def _normalize_filename(name: str) -> str:
+    normalized = unicodedata.normalize("NFD", str(name or ""))
+    without_accents = "".join(
+        char for char in normalized if unicodedata.category(char) != "Mn"
+    )
+    return without_accents.lower().replace(" ", "").replace("-", "").replace("_", "")
+
+
+def _get_available_image_names():
+    base_img_path = Path(__file__).resolve().parent.parent / "img"
+    available_names = {}
+    for category in IMAGE_CATEGORIES:
+        category_path = base_img_path / category
+        if not category_path.exists() or not category_path.is_dir():
+            continue
+
+        available_names[category] = {
+            _normalize_filename(file_path.stem)
+            for file_path in category_path.iterdir()
+            if file_path.is_file() and file_path.suffix.lower() in IMAGE_EXTENSIONS
+        }
+
+    return available_names
+
+
+def _product_has_image(nombre: str, tipo_planta: str, available_names=None) -> bool:
+    tipo_normalizado = str(tipo_planta or "").strip().lower()
+    if tipo_normalizado not in IMAGE_CATEGORIES:
+        return False
+
+    nombre_normalizado = _normalize_filename(nombre)
+    if not nombre_normalizado:
+        return False
+
+    names_by_category = available_names or _get_available_image_names()
+    return nombre_normalizado in names_by_category.get(tipo_normalizado, set())
+
+
 def init_db():
     conn = get_db_connection()
     cursor = get_db_cursor(conn)
@@ -161,7 +203,14 @@ def init_db():
         ADD COLUMN IF NOT EXISTS produccion VARCHAR(32),
         ADD COLUMN IF NOT EXISTS invernadero BOOLEAN NOT NULL DEFAULT FALSE,
         ADD COLUMN IF NOT EXISTS stock BOOLEAN NOT NULL DEFAULT TRUE,
-        ADD COLUMN IF NOT EXISTS tiene_imagen BOOLEAN NOT NULL DEFAULT TRUE
+        ADD COLUMN IF NOT EXISTS tiene_imagen BOOLEAN NOT NULL DEFAULT FALSE
+        """
+    )
+
+    cursor.execute(
+        """
+        ALTER TABLE prod
+        ALTER COLUMN tiene_imagen SET DEFAULT FALSE
         """
     )
 
@@ -521,59 +570,30 @@ def get_seed_catalog(filters=None):
 
 def update_product_image_flags():
     """Actualiza la columna tiene_imagen basándose en archivos existentes"""
-    import os
-    import unicodedata
-    
-    def normalize_filename(name):
-        """Normaliza nombre quitando tildes y caracteres especiales"""
-        # Remover acentos
-        name = unicodedata.normalize('NFD', name)
-        name = ''.join(char for char in name if unicodedata.category(char) != 'Mn')
-        # Convertir a minúsculas y reemplazar espacios/caracteres especiales
-        name = name.lower().replace(" ", "").replace("-", "").replace("_", "")
-        return name
-    
+
     try:
-        base_img_path = os.path.join(os.path.dirname(__file__), "..", "img")
         conn = get_db_connection()
         cursor = get_db_cursor(conn)
-        
+
         # Obtener todos los productos
         cursor.execute("SELECT id_prod, nombre, tipo_planta FROM prod")
         products = cursor.fetchall()
-        
-        # Pre-cargar lista de archivos disponibles por categoría
-        available_files = {}
-        categories = ["herb", "veg", "leg", "cer", "flo", "fru"]
-        for category in categories:
-            category_path = os.path.join(base_img_path, category)
-            if os.path.exists(category_path):
-                files = os.listdir(category_path)
-                # Normalizar nombres de archivos para búsqueda
-                available_files[category] = {
-                    normalize_filename(os.path.splitext(f)[0]): f 
-                    for f in files if f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif'))
-                }
-        
+
+        available_names = _get_available_image_names()
+
         for product in products:
             prod_id = product.get("id_prod")
             nombre = product.get("nombre", "")
             tipo_planta = product.get("tipo_planta", "")
-            
-            # Normalizar nombre del producto
-            nombre_normalizado = normalize_filename(nombre)
-            
-            # Buscar en archivos disponibles
-            tiene_imagen = False
-            if tipo_planta in available_files:
-                tiene_imagen = nombre_normalizado in available_files[tipo_planta]
-            
+
+            tiene_imagen = _product_has_image(nombre, tipo_planta, available_names)
+
             # Actualizar BD
             cursor.execute(
                 "UPDATE prod SET tiene_imagen = %s WHERE id_prod = %s",
                 (tiene_imagen, prod_id)
             )
-        
+
         conn.commit()
         cursor.close()
         conn.close()
@@ -742,109 +762,120 @@ def create_seed_product(seed_data: dict):
     conn = get_db_connection()
     cursor = get_db_cursor(conn)
 
-    category_map = {
-        "herb": "Hierbas aromaticas",
-        "veg": "Vegetales",
-        "leg": "Legumbres",
-        "cer": "Cereales",
-        "flo": "Flores",
-        "fru": "Frutas",
-    }
+    try:
+        category_map = {
+            "herb": "Hierbas aromaticas",
+            "veg": "Vegetales",
+            "leg": "Legumbres",
+            "cer": "Cereales",
+            "flo": "Flores",
+            "fru": "Frutas",
+        }
 
-    tipo_planta = str(seed_data.get("tipo_planta") or "").strip().lower()
-    nombre_cat = category_map.get(tipo_planta)
-    if not nombre_cat:
-        conexclose(conn, cursor)
-        raise ValueError("tipo_planta invalido")
+        tipo_planta = str(seed_data.get("tipo_planta") or "").strip().lower()
+        nombre_cat = category_map.get(tipo_planta)
+        if not nombre_cat:
+            raise ValueError("tipo_planta invalido")
 
-    cursor.execute(
-        "SELECT id_cat FROM cat WHERE nombre_cat = %(nombre_cat)s",
-        {"nombre_cat": nombre_cat},
-    )
-    cat_row = cursor.fetchone()
-    if not cat_row:
-        conexclose(conn, cursor)
-        raise ValueError("Categoria no encontrada")
-
-    cursor.execute("SELECT COALESCE(MAX(id_prod), 0) + 1 AS next_id FROM prod")
-    next_id_row = cursor.fetchone()
-    next_id = int(next_id_row["next_id"])
-
-    cursor.execute(
-        """
-        INSERT INTO prod (
-            id_prod,
-            nombre,
-            id_cat,
-            precio,
-            tipo_planta,
-            necesidad_luz,
-            riego,
-            resistencia_frio,
-            estacion_siembra,
-            tiempo_cosecha,
-            dificultad,
-            cuidados,
-            produccion,
-            invernadero,
-            stock
+        cursor.execute(
+            "SELECT id_cat FROM cat WHERE nombre_cat = %(nombre_cat)s",
+            {"nombre_cat": nombre_cat},
         )
-        VALUES (
-            %(id_prod)s,
-            %(nombre)s,
-            %(id_cat)s,
-            %(precio)s,
-            %(tipo_planta)s,
-            %(necesidad_luz)s,
-            %(riego)s,
-            %(resistencia_frio)s,
-            %(estacion_siembra)s,
-            %(tiempo_cosecha)s,
-            %(dificultad)s,
-            %(cuidados)s,
-            %(produccion)s,
-            %(invernadero)s,
-            %(stock)s
+        cat_row = cursor.fetchone()
+        if not cat_row:
+            raise ValueError("Categoria no encontrada")
+
+        cursor.execute("SELECT COALESCE(MAX(id_prod), 0) + 1 AS next_id FROM prod")
+        next_id_row = cursor.fetchone()
+        next_id = int(next_id_row["next_id"])
+        nombre = str(seed_data.get("nombre") or "").strip()
+        tiene_imagen = _product_has_image(nombre, tipo_planta)
+
+        cursor.execute(
+            """
+            INSERT INTO prod (
+                id_prod,
+                nombre,
+                id_cat,
+                precio,
+                tipo_planta,
+                necesidad_luz,
+                riego,
+                resistencia_frio,
+                estacion_siembra,
+                tiempo_cosecha,
+                dificultad,
+                cuidados,
+                produccion,
+                invernadero,
+                stock,
+                tiene_imagen
+            )
+            VALUES (
+                %(id_prod)s,
+                %(nombre)s,
+                %(id_cat)s,
+                %(precio)s,
+                %(tipo_planta)s,
+                %(necesidad_luz)s,
+                %(riego)s,
+                %(resistencia_frio)s,
+                %(estacion_siembra)s,
+                %(tiempo_cosecha)s,
+                %(dificultad)s,
+                %(cuidados)s,
+                %(produccion)s,
+                %(invernadero)s,
+                %(stock)s,
+                %(tiene_imagen)s
+            )
+            RETURNING
+                id_prod AS id,
+                id_cat,
+                nombre,
+                precio,
+                tipo_planta,
+                necesidad_luz,
+                riego,
+                resistencia_frio,
+                estacion_siembra,
+                tiempo_cosecha,
+                dificultad,
+                cuidados,
+                produccion,
+                invernadero,
+                stock,
+                tiene_imagen
+            """,
+            {
+                "id_prod": next_id,
+                "nombre": nombre,
+                "id_cat": int(cat_row["id_cat"]),
+                "precio": float(seed_data.get("precio") or 0),
+                "tipo_planta": tipo_planta,
+                "necesidad_luz": str(seed_data.get("necesidad_luz") or "").strip().lower(),
+                "riego": str(seed_data.get("riego") or "").strip().lower(),
+                "resistencia_frio": str(seed_data.get("resistencia_frio") or "").strip().lower(),
+                "estacion_siembra": str(seed_data.get("estacion_siembra") or "").strip().lower(),
+                "tiempo_cosecha": str(seed_data.get("tiempo_cosecha") or "").strip(),
+                "dificultad": str(seed_data.get("dificultad") or "").strip().lower(),
+                "cuidados": str(seed_data.get("cuidados") or "").strip().lower(),
+                "produccion": str(seed_data.get("produccion") or "").strip().lower(),
+                "invernadero": bool(seed_data.get("invernadero", False)),
+                "stock": bool(seed_data.get("stock", True)),
+                "tiene_imagen": tiene_imagen,
+            },
         )
-        RETURNING
-            id_prod AS id,
-            id_cat,
-            nombre,
-            precio,
-            tipo_planta,
-            necesidad_luz,
-            riego,
-            resistencia_frio,
-            estacion_siembra,
-            tiempo_cosecha,
-            dificultad,
-            cuidados,
-            produccion,
-            invernadero,
-            stock
-        """,
-        {
-            "id_prod": next_id,
-            "nombre": str(seed_data.get("nombre") or "").strip(),
-            "id_cat": int(cat_row["id_cat"]),
-            "precio": float(seed_data.get("precio") or 0),
-            "tipo_planta": tipo_planta,
-            "necesidad_luz": str(seed_data.get("necesidad_luz") or "").strip().lower(),
-            "riego": str(seed_data.get("riego") or "").strip().lower(),
-            "resistencia_frio": str(seed_data.get("resistencia_frio") or "").strip().lower(),
-            "estacion_siembra": str(seed_data.get("estacion_siembra") or "").strip().lower(),
-            "tiempo_cosecha": str(seed_data.get("tiempo_cosecha") or "").strip(),
-            "dificultad": str(seed_data.get("dificultad") or "").strip().lower(),
-            "cuidados": str(seed_data.get("cuidados") or "").strip().lower(),
-            "produccion": str(seed_data.get("produccion") or "").strip().lower(),
-            "invernadero": bool(seed_data.get("invernadero", False)),
-            "stock": bool(seed_data.get("stock", True)),
-        },
-    )
-    created = cursor.fetchone()
-    conn.commit()
-    conexclose(conn, cursor)
-    return created
+        created = cursor.fetchone()
+        if not created:
+            raise ValueError("No se devolvió la semilla creada (INSERT sin resultado)")
+        conn.commit()
+        return created
+    except Exception as e:
+        conn.rollback()
+        raise e
+    finally:
+        conexclose(conn, cursor)
 
 
 def delete_seed_product_by_name(nombre: str):

@@ -958,8 +958,11 @@ def admin_create_seed():
         created = create_seed_product(data)
     except ValueError as error:
         return jsonify({"ok": False, "message": str(error)}), 400
-    except Exception:
-        return jsonify({"ok": False, "message": "No se pudo crear la semilla"}), 500
+    except Exception as e:
+        import traceback
+        error_detail = traceback.format_exc()
+        print(f"ERROR creando semilla: {error_detail}")
+        return jsonify({"ok": False, "message": f"No se pudo crear la semilla: {str(e)}"}), 500
 
     return jsonify(
         {
